@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-white'>
-      <Link to='#' className='navbar-brand'>
+      <Link to='/' className='navbar-brand'>
         <img width='30%' height='15%' src={'/images/logo.png'} alt='logo' />
       </Link>
 
@@ -29,13 +29,13 @@ const NavBar = () => {
 
       <div className='collapse navbar-collapse' id='navbarSupportedContent'>
         <ul className='navbar-nav ml-auto'>
-          <li className='nav-item active'>
-            <Link to='#' className='nav-link'>
+          <li className='nav-item '>
+            <Link to='/signin' className='nav-link'>
               Sign In <span className='sr-only'>(current)</span>
             </Link>
           </li>
           <li className='nav-item'>
-            <Link to='#' className='nav-link'>
+            <Link to='/register' className='nav-link'>
               Register
             </Link>
           </li>
