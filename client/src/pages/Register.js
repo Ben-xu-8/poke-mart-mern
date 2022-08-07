@@ -6,6 +6,8 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import equals from 'validator/lib/equals';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
+import { showLoading } from '../helpers/loading';
+import { signup } from '../api/auth';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Container = styled.div`
@@ -35,6 +37,11 @@ const Wrapper = styled.div`
   ${mobile({ width: '80%' })}
 `;
 
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const Load = styled.div``;
 const Title = styled.div`
   font-size: 25px;
 `;
@@ -138,10 +145,33 @@ const Register = () => {
         errorMsg: 'Password Does Not Match',
       });
     } else {
+      const { firstname, lastname, username, email, password } = formData;
+      const data = { firstname, lastname, username, email, password };
       setFormData({
         ...formData,
-        successMsg: 'Login Successful!',
+        loading: true,
       });
+
+      signup(data)
+        .then((response) => {
+          console.log(response);
+          setFormData({
+            firstname: '',
+            lastname: '',
+            username: '',
+            email: '',
+            password: '',
+            password2: '',
+            successMsg: response.data.successMessage,
+            loading: false,
+          });
+        })
+        .catch((err) => {
+          console.log('Signup error', err);
+          setFormData({
+            loading: false,
+          });
+        });
     }
   };
 
@@ -155,7 +185,10 @@ const Register = () => {
             <ArrowBackIcon />
           </Link>
         </Home>
-        <Title>Create an Account</Title>
+        <Top>
+          <Title>Create an Account</Title>
+          <Load>{loading && showLoading()}</Load>
+        </Top>
 
         <Form onSubmit={handleSubmit}>
           <Input
