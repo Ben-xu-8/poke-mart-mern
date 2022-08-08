@@ -13,9 +13,9 @@ exports.signupValidator = [
 exports.validatorResult = (req, res, next) => {
   const result = validationResult();
   const hasErrors = !result.isEmpty();
-  //   if (hasErrors) {
-  //     console.log('Errors:', hasErrors);
-  //     console.log('results', result);
-  //   }
+  if (hasErrors) {
+    console.log('Errors:', hasErrors);
+    console.log('results', result);
+  }
   next();
 };

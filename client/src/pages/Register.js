@@ -154,7 +154,7 @@ const Register = () => {
 
       register(data)
         .then((response) => {
-          console.log(response);
+          console.log('Success', response);
           setFormData({
             firstname: '',
             lastname: '',
