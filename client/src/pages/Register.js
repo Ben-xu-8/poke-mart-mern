@@ -7,7 +7,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import equals from 'validator/lib/equals';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
-import { signup } from '../api/auth';
+import { register } from '../api/auth';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Container = styled.div`
@@ -152,7 +152,7 @@ const Register = () => {
         loading: true,
       });
 
-      signup(data)
+      register(data)
         .then((response) => {
           console.log(response);
           setFormData({
@@ -167,7 +167,7 @@ const Register = () => {
           });
         })
         .catch((err) => {
-          console.log('Signup error', err);
+          console.log('Registration error', err);
           setFormData({
             loading: false,
           });
