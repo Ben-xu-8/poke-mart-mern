@@ -127,6 +127,7 @@ const Register = () => {
       isEmpty(firstname) ||
       isEmpty(lastname) ||
       isEmpty(username) ||
+      isEmpty(email) ||
       isEmpty(password) ||
       isEmpty(password2)
     ) {
@@ -162,14 +163,16 @@ const Register = () => {
             email: '',
             password: '',
             password2: '',
-            successMsg: response.data.successMessage,
             loading: false,
+            successMsg: response.data.successMessage,
           });
         })
         .catch((err) => {
           console.log('Registration error', err);
           setFormData({
+            ...formData,
             loading: false,
+            errorMsg: err.response.data.errors,
           });
         });
     }
@@ -190,7 +193,7 @@ const Register = () => {
           <Load>{loading && showLoading()}</Load>
         </Top>
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} noValidate>
           <Input
             name='firstname'
             value={firstname}
@@ -232,7 +235,7 @@ const Register = () => {
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
           <Buttons>
-            <CreateButton>Create Account</CreateButton>
+            <CreateButton type='submit'>Create Account</CreateButton>
           </Buttons>
         </Form>
       </Wrapper>
