@@ -219,12 +219,14 @@ const Register = () => {
             onChange={handleChange}
           />
           <Input
+            type='password'
             name='password'
             value={password}
             placeholder='Password'
             onChange={handleChange}
           />
           <Input
+            type='password'
             name='password2'
             value={password2}
             placeholder='Confirm Password'
