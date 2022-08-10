@@ -172,7 +172,7 @@ const Register = () => {
           setFormData({
             ...formData,
             loading: false,
-            errorMsg: err.response.data.errors,
+            errorMsg: err.response.data.errorMessage,
           });
         });
     }

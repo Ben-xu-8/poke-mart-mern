@@ -22,7 +22,13 @@ exports.registerController = async (req, res) => {
     newUser.password = await bcrypt.hash(password, salt);
 
     await newUser.save();
+    res.json({
+      successMessage: 'Registration Success',
+    });
   } catch (err) {
     console.log('Register Controller Error', err);
+    res.status(500).json({
+      errorMessage: 'Server Error',
+    });
   }
 };
