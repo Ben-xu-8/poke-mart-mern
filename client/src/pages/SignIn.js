@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useState } from 'react';
-// import { login } from '../redux/apiCalls';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { showErrorMsg } from '../helpers/message';
+import { showLoading } from '../helpers/loading';
+import isEmail from 'validator/lib/isEmail';
+import isEmpty from 'validator/lib/isEmpty';
+import { signin } from '../api/auth';
 
 const Container = styled.div`
   width: 100vw;
@@ -79,45 +82,91 @@ const Home = styled.button`
   margin-bottom: 15px;
 `;
 
+const Error = styled.div``;
+const Top = styled.div``;
+const Load = styled.div``;
+
 // const Error = styled.span`
 //   margin: 30px;
 //   color: red;
 // `;
 
 const SignIn = () => {
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const { isFetching, error } = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    errorMsg: false,
+    loading: false,
+    dashboard: false,
+  });
+  const { email, password, errorMsg, loading, dashboard } = formData;
 
-  // const handleClick = (e) => {
-  //   e.preventDefault();
-  //   login(dispatch, { username, password });
-  // };
+  // Grabs the data from the input fields
+  const handleChange = (evt) => {
+    setFormData({
+      ...formData,
+      [evt.target.name]: evt.target.value,
+      errorMsg: '',
+    });
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    // Validate User Inputs
+    if (isEmpty(email) || isEmpty(password)) {
+      setFormData({
+        ...formData,
+        errorMsg: 'All Fields Are Required',
+      });
+    } else if (!isEmail(email)) {
+      setFormData({
+        ...formData,
+        errorMsg: 'Invalid Email',
+      });
+    } else {
+      const { email, password } = formData;
+      const data = { email, password };
+      setFormData({
+        ...formData,
+        loading: true,
+      });
+
+      signin(data);
+    }
+  };
 
   return (
     <Container>
       <Wrapper>
+        <Error>{errorMsg && showErrorMsg(errorMsg)}</Error>
         <Home>
           <Link to='/'>
             <ArrowBackIcon />
           </Link>
         </Home>
-        <Title>Sign In</Title>
-        <Form>
+        <Top>
+          <Title>Sign In</Title>
+          <Load>{loading && showLoading()}</Load>
+        </Top>
+
+        <Form onSubmit={handleSubmit}>
           <Input
-            placeholder='Username'
-            // onChange={(e) => setUsername(e.target.value)}
+            name='email'
+            value={email}
+            placeholder='Email'
+            onChange={handleChange}
           />
           <Input
-            placeholder='Password'
             type='password'
-            // onChange={(e) => setPassword(e.target.value)}
+            name='password'
+            value={password}
+            placeholder='Password'
+            onChange={handleChange}
           />
+          <Buttons>
+            <LoginButton type='Submit'>Login</LoginButton>
+          </Buttons>
         </Form>
-        <Buttons>
-          <LoginButton>Login</LoginButton>
-        </Buttons>
         <Redirect>Forgot Password?</Redirect>
         <Redirect>
           <Link to='/register'>Create New Account</Link>

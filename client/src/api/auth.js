@@ -6,3 +6,10 @@ export const register = async (data) => {
   });
   return response;
 };
+
+export const signin = async (data) => {
+  const response = await axios.post('/api/auth/signin', data, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return response;
+};
