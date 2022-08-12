@@ -105,7 +105,7 @@ const NavBar = () => {
               <li className='nav-item'>
                 <Link
                   to='/signin'
-                  className='nav-link active'
+                  className='nav-link '
                   aria-current='page'
                   href='#'
                 >

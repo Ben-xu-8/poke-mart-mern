@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,8 @@ import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
 import { register } from '../api/auth';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
+import { isAuth } from '../helpers/auth';
 
 const Container = styled.div`
   width: 100vw;
@@ -85,6 +87,15 @@ const Success = styled.div``;
 
 const Register = () => {
   // Set State for input data
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuth() && isAuth().role === 1) {
+      navigate('/admin/dashboard');
+    } else if (isAuth() && isAuth().role === 0) {
+      navigate('/user/dashboard');
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -166,6 +177,7 @@ const Register = () => {
             loading: false,
             successMsg: response.data.successMessage,
           });
+          navigate('/');
         })
         .catch((err) => {
           console.log('Registration error', err);
