@@ -2,9 +2,29 @@ import React, { Fragment } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { isAuth, logout } from '../helpers/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHouse,
+  faRightFromBracket,
+  faUserPen,
+  faAngleDoubleDown,
+  faGripHorizontal,
+  faDoorOpen,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
   width: 100%;
+`;
+
+const Icon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 5px;
+`;
+
+const Form = styled.div`
+  padding-left: 15px;
 `;
 
 // const Button = styled.button`
@@ -60,6 +80,9 @@ const NavBar = () => {
                 <Fragment>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faHouse} />
+                      </Icon>
                       Home
                     </Link>
                   </li>
@@ -70,11 +93,17 @@ const NavBar = () => {
                       aria-current='page'
                       href='#'
                     >
+                      <Icon>
+                        <FontAwesomeIcon icon={faRightFromBracket} />
+                      </Icon>
                       Sign In
                     </Link>
                   </li>
                   <li className='nav-item'>
                     <Link to='Register' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faUserPen} />
+                      </Icon>
                       Register
                     </Link>
                   </li>
@@ -85,6 +114,9 @@ const NavBar = () => {
                 <Fragment>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faGripHorizontal} />
+                      </Icon>
                       Dashboard
                     </Link>
                   </li>
@@ -95,6 +127,9 @@ const NavBar = () => {
                 <Fragment>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faGripHorizontal} />
+                      </Icon>
                       Dashboard
                     </Link>
                   </li>
@@ -104,12 +139,19 @@ const NavBar = () => {
               {isAuth() && (
                 <Fragment>
                   <li className='nav-item'>
+                    <FontAwesomeIcon icon='faHouse' />
                     <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faHouse} />
+                      </Icon>
                       Home
                     </Link>
                   </li>
                   <li className='nav-item ' onClick={handleLogout}>
                     <button className='btn btn-link text-secondary text-decoration-none pl-0'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faDoorOpen} />
+                      </Icon>
                       Logout
                     </button>
                   </li>
@@ -126,6 +168,9 @@ const NavBar = () => {
                   data-bs-toggle='dropdown'
                   aria-expanded='false'
                 >
+                  <Icon>
+                    <FontAwesomeIcon icon={faAngleDoubleDown} />
+                  </Icon>
                   Products
                 </Link>
                 <ul className='dropdown-menu' aria-labelledby='navbarDropdown'>
@@ -147,17 +192,19 @@ const NavBar = () => {
                 </ul>
               </li>
             </ul>
-            <form className='d-flex'>
-              <input
-                className='form-control me-2'
-                type='search'
-                placeholder='Search'
-                aria-label='Search'
-              />
-              <button className='btn btn-outline-success' type='submit'>
-                Search
-              </button>
-            </form>
+            <Form>
+              <form className='d-flex'>
+                <input
+                  className='form-control me-2'
+                  type='search'
+                  placeholder='Search'
+                  aria-label='Search'
+                />
+                <button className='btn btn-outline-success' type='submit'>
+                  Search
+                </button>
+              </form>
+            </Form>
           </div>
         </div>
       </nav>

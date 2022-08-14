@@ -148,6 +148,11 @@ const SignIn = () => {
         })
         .catch((err) => {
           console.log('Sign In Error', err);
+          setFormData({
+            ...formData,
+            loading: false,
+            errorMsg: err.response.data.errorMessage,
+          });
         });
     }
   };
