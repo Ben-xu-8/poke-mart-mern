@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPlus, faScroll } from '@fortawesome/free-solid-svg-icons';
+import { createCategory } from '../api/category';
+import isEmpty from 'validator/lib/isEmpty';
+import { showErrorMsg, showSuccessMsg } from '../helpers/message';
+import { showLoading } from '../helpers/loading';
 
 const CategoryListItemOne = styled.button`
   display: flex;
@@ -93,6 +98,42 @@ const DashboardName = styled.div`
 
 const AdminNavBar = () => {
   const [show, setShow] = useState(false);
+  const [category, setCategory] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const [loading, setLoading] = useState('');
+
+  const handleMessage = (evt) => {
+    setErrorMsg('');
+    setSuccessMsg('');
+  };
+
+  const handleCategoryChange = (evt) => {
+    setCategory(evt.target.value);
+    setErrorMsg('');
+    setSuccessMsg('');
+  };
+
+  const handleCategorySubmit = (evt) => {
+    evt.preventDefault();
+
+    if (isEmpty(category)) {
+      setErrorMsg('Please Enter a Category');
+    } else {
+      const data = { category };
+
+      setLoading(true);
+      createCategory(data)
+        .then((response) => {
+          setLoading(false);
+          setSuccessMsg(response.data.successMessage);
+        })
+        .catch((err) => {
+          setLoading(false);
+          setErrorMsg(err.response.data.errorMessage);
+        });
+    }
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -115,24 +156,50 @@ const AdminNavBar = () => {
             </Icon>
             <Name>Add Category</Name>
           </CategoryListItemOne>
-          {/* _________________________________________________________ */}
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Woohoo, you're reading this text in a modal!
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
-                Close
-              </Button>
-              <Button variant='primary' onClick={handleClose}>
-                Save Changes
-              </Button>
-            </Modal.Footer>
+
+          {/* ************************ MODALS ************************ */}
+
+          <Modal show={show} onHide={handleClose} onClick={handleMessage}>
+            <Form onSubmit={handleCategorySubmit}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Category</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {errorMsg && showErrorMsg(errorMsg)}
+                {successMsg && showSuccessMsg(successMsg)}
+                <Form.Group
+                  className='mb-3'
+                  controlId='exampleForm.ControlInput1'
+                >
+                  <Form.Label>Category</Form.Label>
+                </Form.Group>
+                {loading ? (
+                  showLoading()
+                ) : (
+                  <Fragment>
+                    <Form.Control
+                      type='text'
+                      placeholder='Add Category'
+                      name='category'
+                      value={category}
+                      onChange={handleCategoryChange}
+                    />
+                  </Fragment>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant='secondary' onClick={handleClose}>
+                  Close
+                </Button>
+                <Button type='submit' variant='primary'>
+                  Submit
+                </Button>
+              </Modal.Footer>
+            </Form>
           </Modal>
-          {/* _________________________________________________________ */}
+
+          {/* ************************ MODALS ************************ */}
+
           <CategoryListItemTwo>
             <Icon>
               <FontAwesomeIcon icon={faPlus} />
