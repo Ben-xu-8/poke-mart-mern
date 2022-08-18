@@ -1,11 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPlus, faScroll } from '@fortawesome/free-solid-svg-icons';
-import { createCategory } from '../api/category';
+import { createCategory, getCategories } from '../api/category';
 import isEmpty from 'validator/lib/isEmpty';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
@@ -97,11 +97,27 @@ const DashboardName = styled.div`
 `;
 
 const AdminNavBar = () => {
-  const [show, setShow] = useState(false);
+  //   const [show, setShow] = useState(false);
+  const [modalState, setModalState] = useState();
   const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loading]);
+
+  const loadCategories = async () => {
+    await getCategories()
+      .then((response) => {
+        setCategories(response.data.categories);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleMessage = (evt) => {
     setErrorMsg('');
@@ -136,8 +152,16 @@ const AdminNavBar = () => {
     }
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setModalState('close');
+  //   const handleShow = () => setShow(true);
+
+  const handleShowOne = () => {
+    setModalState('categoryModal');
+  };
+
+  const handleShowTwo = () => {
+    setModalState('pokemonModal');
+  };
 
   return (
     <Container>
@@ -151,7 +175,7 @@ const AdminNavBar = () => {
           </Header>
         </Title>
         <Category>
-          <CategoryListItemOne variant='primary' onClick={handleShow}>
+          <CategoryListItemOne variant='primary' onClick={handleShowOne}>
             <Icon>
               <FontAwesomeIcon icon={faPlus} />
             </Icon>
@@ -160,7 +184,11 @@ const AdminNavBar = () => {
 
           {/* ************************ MODALS ************************ */}
 
-          <Modal show={show} onHide={handleClose} onClick={handleMessage}>
+          <Modal
+            show={modalState === 'categoryModal'}
+            onHide={handleClose}
+            onClick={handleMessage}
+          >
             <Form onSubmit={handleCategorySubmit}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Category</Modal.Title>
@@ -201,12 +229,105 @@ const AdminNavBar = () => {
 
           {/* ************************ MODALS ************************ */}
 
-          <CategoryListItemTwo>
+          <CategoryListItemTwo variant='primary' onClick={handleShowTwo}>
             <Icon>
               <FontAwesomeIcon icon={faPlus} />
             </Icon>
             <Name>Add Product</Name>
           </CategoryListItemTwo>
+
+          {/* ***********************MODALS TWO************************ */}
+
+          <Modal
+            show={modalState === 'pokemonModal'}
+            onHide={handleClose}
+            onClick={handleMessage}
+          >
+            <Form onSubmit={handleCategorySubmit}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Pokemon</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                {errorMsg && showErrorMsg(errorMsg)}
+                {successMsg && showSuccessMsg(successMsg)}
+                <Form.Group
+                  className='mb-3'
+                  controlId='exampleForm.ControlInput2'
+                ></Form.Group>
+                {loading ? (
+                  showLoading()
+                ) : (
+                  <Fragment>
+                    <Form.Group controlId='formFile' className='mb-3'>
+                      <Form.Label>Import Image</Form.Label>
+                      <Form.Control type='file' />
+                    </Form.Group>
+
+                    <Form.Group className='mb-3' controlId='formEntry'>
+                      <Form.Label>Pokemon</Form.Label>
+                      <Form.Control
+                        type='text'
+                        placeholder='Enter Pokemon Here'
+                      />
+                    </Form.Group>
+
+                    <Form.Group
+                      className='mb-3'
+                      controlId='exampleForm.ControlTextarea1'
+                    >
+                      <Form.Label>Description</Form.Label>
+                      <Form.Control as='textarea' rows={3} />
+                    </Form.Group>
+
+                    <Form.Group className='mb-3' controlId='formPrice'>
+                      <Form.Label>Price</Form.Label>
+                      <Form.Control type='text' placeholder='Price' />
+                    </Form.Group>
+
+                    <Form.Group className='mb-3' controlId='formQuantity'>
+                      <Form.Label>Quantity</Form.Label>
+                      <Form.Control
+                        type='number'
+                        placeholder='Enter Pokemon Here'
+                        min='1'
+                        max='99'
+                      />
+                    </Form.Group>
+
+                    <Form.Label>Type</Form.Label>
+                    <Form.Select aria-label='Default select example'>
+                      <option>Type</option>
+                      {categories &&
+                        categories.map((c) => (
+                          <option key={c._id} value={c._id}>
+                            {c.category}
+                          </option>
+                        ))}
+                    </Form.Select>
+
+                    <Form.Label>Product</Form.Label>
+                    <Form.Select aria-label='Default select example'>
+                      <option>Product</option>
+                      <option>Pokemon</option>
+                      <option>Item Shop</option>
+                      <option>TM/HM</option>
+                    </Form.Select>
+                  </Fragment>
+                )}
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant='secondary' onClick={handleClose}>
+                  Close
+                </Button>
+                <Button type='submit' variant='primary'>
+                  Submit
+                </Button>
+              </Modal.Footer>
+            </Form>
+          </Modal>
+
+          {/* *********************************************** */}
+
           <CategoryListItemThree>
             <Icon>
               <FontAwesomeIcon icon={faScroll} />
