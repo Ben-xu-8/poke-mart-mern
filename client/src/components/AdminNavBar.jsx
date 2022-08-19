@@ -9,6 +9,7 @@ import { createCategory, getCategories } from '../api/category';
 import isEmpty from 'validator/lib/isEmpty';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
+import { createProduct } from '../api/product';
 
 const CategoryListItemOne = styled.button`
   display: flex;
@@ -104,6 +105,25 @@ const AdminNavBar = () => {
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [productData, setProductData] = useState({
+    productImage: null,
+    productName: '',
+    productDesc: '',
+    productPrice: '',
+    productQty: '',
+    productType: '',
+    productProduct: '',
+  });
+
+  const {
+    productImage,
+    productName,
+    productDesc,
+    productPrice,
+    productQty,
+    productType,
+    productProduct,
+  } = productData;
 
   useEffect(() => {
     loadCategories();
@@ -161,6 +181,70 @@ const AdminNavBar = () => {
 
   const handleShowTwo = () => {
     setModalState('pokemonModal');
+  };
+
+  const handleProductImage = (evt) => {
+    console.log(evt);
+    setProductData({
+      ...productData,
+      [evt.target.name]: evt.target.files[0],
+    });
+  };
+
+  const handleProductChange = (evt) => {
+    setProductData({
+      ...productData,
+      [evt.target.name]: evt.target.value,
+    });
+  };
+
+  const handleProductSubmit = (evt) => {
+    evt.preventDefault();
+
+    if (productImage === null) {
+      setErrorMsg('Please Submit Image');
+    } else if (
+      isEmpty(productName) ||
+      isEmpty(productDesc) ||
+      isEmpty(productPrice) ||
+      isEmpty(productType)
+    ) {
+      setErrorMsg('Fields are Empty');
+    } else if (isEmpty(productProduct)) {
+      setErrorMsg('Product Not Known');
+    } else if (isEmpty(productQty)) {
+      setErrorMsg('Quantity Not Known');
+    } else if (isEmpty(productType)) {
+      setErrorMsg('Type Not Known');
+    } else {
+      let formData = new FormData();
+      formData.append('productImage', productImage);
+      formData.append('productDesc', productDesc);
+      formData.append('productPrice', productPrice);
+      formData.append('productType', productType);
+      formData.append('productProduct', productProduct);
+      formData.append('productQty', productQty);
+      formData.append('productType', productType);
+
+      createProduct(formData)
+        .then((response) => {
+          console.log('Server Response', response);
+          setProductData({
+            productImage: null,
+            productName: '',
+            productDesc: '',
+            productPrice: '',
+            productQty: '',
+            productType: '',
+            productProduct: '',
+          });
+          setSuccessMsg(response.data.successMessage);
+        })
+        .catch((err) => {
+          console.log('Server Error', err);
+          setErrorMsg(err.response.data.errorMessage);
+        });
+    }
   };
 
   return (
@@ -243,7 +327,7 @@ const AdminNavBar = () => {
             onHide={handleClose}
             onClick={handleMessage}
           >
-            <Form onSubmit={handleCategorySubmit}>
+            <Form onSubmit={handleProductSubmit}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Pokemon</Modal.Title>
               </Modal.Header>
@@ -260,7 +344,11 @@ const AdminNavBar = () => {
                   <Fragment>
                     <Form.Group controlId='formFile' className='mb-3'>
                       <Form.Label>Import Image</Form.Label>
-                      <Form.Control type='file' />
+                      <Form.Control
+                        type='file'
+                        name='productImage'
+                        onChange={handleProductImage}
+                      />
                     </Form.Group>
 
                     <Form.Group className='mb-3' controlId='formEntry'>
@@ -268,6 +356,9 @@ const AdminNavBar = () => {
                       <Form.Control
                         type='text'
                         placeholder='Enter Pokemon Here'
+                        name='productName'
+                        value={productName}
+                        onChange={handleProductChange}
                       />
                     </Form.Group>
 
@@ -276,12 +367,24 @@ const AdminNavBar = () => {
                       controlId='exampleForm.ControlTextarea1'
                     >
                       <Form.Label>Description</Form.Label>
-                      <Form.Control as='textarea' rows={3} />
+                      <Form.Control
+                        as='textarea'
+                        rows={3}
+                        name='productDesc'
+                        value={productDesc}
+                        onChange={handleProductChange}
+                      />
                     </Form.Group>
 
                     <Form.Group className='mb-3' controlId='formPrice'>
                       <Form.Label>Price</Form.Label>
-                      <Form.Control type='text' placeholder='Price' />
+                      <Form.Control
+                        type='text'
+                        placeholder='Price'
+                        name='productPrice'
+                        value={productPrice}
+                        onChange={handleProductChange}
+                      />
                     </Form.Group>
 
                     <Form.Group className='mb-3' controlId='formQuantity'>
@@ -291,12 +394,19 @@ const AdminNavBar = () => {
                         placeholder='Enter Pokemon Here'
                         min='1'
                         max='99'
+                        name='productQty'
+                        value={productQty}
+                        onChange={handleProductChange}
                       />
                     </Form.Group>
 
                     <Form.Label>Type</Form.Label>
-                    <Form.Select aria-label='Default select example'>
-                      <option>Type</option>
+                    <Form.Select
+                      aria-label='Default select example'
+                      name='productType'
+                      onChange={handleProductChange}
+                    >
+                      <option value=''>Type</option>
                       {categories &&
                         categories.map((c) => (
                           <option key={c._id} value={c._id}>
@@ -306,8 +416,12 @@ const AdminNavBar = () => {
                     </Form.Select>
 
                     <Form.Label>Product</Form.Label>
-                    <Form.Select aria-label='Default select example'>
-                      <option>Product</option>
+                    <Form.Select
+                      aria-label='Default select example'
+                      name='productProduct'
+                      onChange={handleProductChange}
+                    >
+                      <option value=''>Product</option>
                       <option>Pokemon</option>
                       <option>Item Shop</option>
                       <option>TM/HM</option>
