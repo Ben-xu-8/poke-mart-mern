@@ -221,7 +221,7 @@ const AdminNavBar = () => {
       formData.append('productImage', productImage);
       formData.append('productDesc', productDesc);
       formData.append('productPrice', productPrice);
-      formData.append('productType', productType);
+      formData.append('productName', productName);
       formData.append('productProduct', productProduct);
       formData.append('productQty', productQty);
       formData.append('productType', productType);

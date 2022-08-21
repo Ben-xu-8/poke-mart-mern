@@ -1,10 +1,6 @@
 const Product = require('../models/Product');
 
 exports.create = async (req, res) => {
-  console.log('req.body', req.body);
-  console.log('req.file', req.file);
-  console.log('req.user', req.user);
-
   const { filename } = req.file;
   const {
     productName,
@@ -20,9 +16,9 @@ exports.create = async (req, res) => {
     product.fileName = filename;
     product.productName = productName;
     product.productDesc = productDesc;
-    product.productPrice = producePrice;
+    product.productPrice = productPrice;
     product.productType = productType;
-    product.productQty = prodcutQty;
+    product.productQty = productQty;
     product.productProduct = productProduct;
 
     await product.save();

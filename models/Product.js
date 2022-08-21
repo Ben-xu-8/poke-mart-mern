@@ -4,17 +4,16 @@ const { ObjectId } = mongoose.Schema;
 const ProductSchema = new mongoose.Schema(
   {
     fileName: {
-      type: 'String',
+      type: String,
       required: true,
     },
     productName: {
-      type: 'String',
+      type: String,
       required: true,
       trim: true,
-      maxLength: 60,
     },
     productDesc: {
-      type: 'String',
+      type: String,
       required: true,
       trim: true,
     },
@@ -24,7 +23,7 @@ const ProductSchema = new mongoose.Schema(
     },
     productType: {
       type: ObjectId,
-      ref: 'Category',
+      ref: 'Type',
       required: true,
     },
     productQty: {
@@ -32,7 +31,7 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
     productProduct: {
-      type: 'String',
+      type: String,
       required: true,
     },
   },
