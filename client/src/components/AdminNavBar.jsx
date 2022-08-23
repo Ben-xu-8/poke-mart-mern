@@ -5,11 +5,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faPlus, faScroll } from '@fortawesome/free-solid-svg-icons';
-import { createCategory, getCategories } from '../api/category';
 import isEmpty from 'validator/lib/isEmpty';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
-import { createProduct } from '../api/product';
+import {
+  getCategories,
+  createCategory,
+} from '../redux/actions/categoryActions';
+import { clearMessages } from '../redux/actions/messageActions';
+import { createProduct } from '../redux/actions/productActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 const CategoryListItemOne = styled.button`
   display: flex;
@@ -98,13 +103,13 @@ const DashboardName = styled.div`
 `;
 
 const AdminNavBar = () => {
-  //   const [show, setShow] = useState(false);
+  const { successMsg, errorMsg } = useSelector((state) => state.messages);
+  const { loading } = useSelector((state) => state.loading);
+  const { categories } = useSelector((state) => state.categories);
+
   const [modalState, setModalState] = useState();
   const [category, setCategory] = useState('');
-  const [categories, setCategories] = useState(null);
-  const [errorMsg, setErrorMsg] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [clientSideErrorMsg, setClientSideErrorMsg] = useState('');
   const [productData, setProductData] = useState({
     productImage: null,
     productName: '',
@@ -125,55 +130,34 @@ const AdminNavBar = () => {
     productProduct,
   } = productData;
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    loadCategories();
-  }, [loading]);
-
-  const loadCategories = async () => {
-    await getCategories()
-      .then((response) => {
-        setCategories(response.data.categories);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    dispatch(getCategories());
+  }, [dispatch]);
 
   const handleMessage = (evt) => {
-    setErrorMsg('');
-    setSuccessMsg('');
+    dispatch(clearMessages());
+    setClientSideErrorMsg('');
   };
 
   const handleCategoryChange = (evt) => {
     setCategory(evt.target.value);
-    setErrorMsg('');
-    setSuccessMsg('');
+    dispatch(clearMessages());
   };
 
   const handleCategorySubmit = (evt) => {
     evt.preventDefault();
 
     if (isEmpty(category)) {
-      setErrorMsg('Please Enter a Category');
+      setClientSideErrorMsg('Please Enter a Category');
     } else {
       const data = { category };
-
-      setLoading(true);
-      createCategory(data)
-        .then((response) => {
-          setLoading(false);
-          setSuccessMsg(response.data.successMessage);
-          setCategory('');
-        })
-        .catch((err) => {
-          setLoading(false);
-          setErrorMsg(err.response.data.errorMessage);
-        });
+      dispatch(createCategory(data));
+      setCategory('');
     }
   };
 
   const handleClose = () => setModalState('close');
-  //   const handleShow = () => setShow(true);
 
   const handleShowOne = () => {
     setModalState('categoryModal');
@@ -202,20 +186,20 @@ const AdminNavBar = () => {
     evt.preventDefault();
 
     if (productImage === null) {
-      setErrorMsg('Please Submit Image');
+      setClientSideErrorMsg('Please Submit Image');
     } else if (
       isEmpty(productName) ||
       isEmpty(productDesc) ||
       isEmpty(productPrice) ||
       isEmpty(productType)
     ) {
-      setErrorMsg('Fields are Empty');
+      setClientSideErrorMsg('Fields are Empty');
     } else if (isEmpty(productProduct)) {
-      setErrorMsg('Product Not Known');
+      setClientSideErrorMsg('Product Not Known');
     } else if (isEmpty(productQty)) {
-      setErrorMsg('Quantity Not Known');
+      setClientSideErrorMsg('Quantity Not Known');
     } else if (isEmpty(productType)) {
-      setErrorMsg('Type Not Known');
+      setClientSideErrorMsg('Type Not Known');
     } else {
       let formData = new FormData();
       formData.append('productImage', productImage);
@@ -226,24 +210,16 @@ const AdminNavBar = () => {
       formData.append('productQty', productQty);
       formData.append('productType', productType);
 
-      createProduct(formData)
-        .then((response) => {
-          console.log('Server Response', response);
-          setProductData({
-            productImage: null,
-            productName: '',
-            productDesc: '',
-            productPrice: '',
-            productQty: '',
-            productType: '',
-            productProduct: '',
-          });
-          setSuccessMsg(response.data.successMessage);
-        })
-        .catch((err) => {
-          console.log('Server Error', err);
-          setErrorMsg(err.response.data.errorMessage);
-        });
+      dispatch(createProduct(formData));
+      setProductData({
+        productImage: null,
+        productName: '',
+        productDesc: '',
+        productPrice: '',
+        productQty: '',
+        productType: '',
+        productProduct: '',
+      });
     }
   };
 
@@ -278,6 +254,7 @@ const AdminNavBar = () => {
                 <Modal.Title>Add Category</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                {clientSideErrorMsg && showErrorMsg(clientSideErrorMsg)}
                 {errorMsg && showErrorMsg(errorMsg)}
                 {successMsg && showSuccessMsg(successMsg)}
                 <Form.Group
@@ -332,6 +309,7 @@ const AdminNavBar = () => {
                 <Modal.Title>Add Pokemon</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                {clientSideErrorMsg && showErrorMsg(clientSideErrorMsg)}
                 {errorMsg && showErrorMsg(errorMsg)}
                 {successMsg && showSuccessMsg(successMsg)}
                 <Form.Group
