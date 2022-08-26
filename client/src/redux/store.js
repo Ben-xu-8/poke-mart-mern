@@ -5,6 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import loadingReducer from './reducers/loadingReducers';
 import messageReducer from './reducers/messageReducer';
 import categoryReducers from './reducers/categoryReducers';
+import productReducer from './reducers/productReducers';
 
 const initialState = {};
 const middleware = [thunk];
@@ -15,6 +16,7 @@ const store = configureStore(
       loading: loadingReducer,
       messages: messageReducer,
       categories: categoryReducers,
+      products: productReducer,
     },
   },
   initialState,

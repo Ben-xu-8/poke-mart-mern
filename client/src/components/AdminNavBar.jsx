@@ -13,7 +13,7 @@ import {
   createCategory,
 } from '../redux/actions/categoryActions';
 import { clearMessages } from '../redux/actions/messageActions';
-import { createProduct } from '../redux/actions/productActions';
+import { getProducts, createProduct } from '../redux/actions/productActions';
 import { useSelector, useDispatch } from 'react-redux';
 
 const CategoryListItemOne = styled.button`
@@ -67,8 +67,8 @@ const Icon = styled.div`
 `;
 
 const Container = styled.div`
-  width: 20%;
-  height: 100vh;
+  width: 30%;
+  height: 200vh;
   background-color: #14274e;
   border-right: 2px black solid;
   border-top: 2px black solid;
@@ -131,8 +131,13 @@ const AdminNavBar = () => {
   } = productData;
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProducts());
   }, [dispatch]);
 
   const handleMessage = (evt) => {
@@ -141,8 +146,8 @@ const AdminNavBar = () => {
   };
 
   const handleCategoryChange = (evt) => {
-    setCategory(evt.target.value);
     dispatch(clearMessages());
+    setCategory(evt.target.value);
   };
 
   const handleCategorySubmit = (evt) => {
@@ -281,7 +286,7 @@ const AdminNavBar = () => {
                 <Button variant='secondary' onClick={handleClose}>
                   Close
                 </Button>
-                <Button type='submit' variant='primary'>
+                <Button type='submit' variant='primary' onClick={handleClose}>
                   Submit
                 </Button>
               </Modal.Footer>
