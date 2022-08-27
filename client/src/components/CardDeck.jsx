@@ -57,7 +57,7 @@ const CardDeck = ({ product }) => {
           </TextDesc>
           <Buttons>
             <Link to={`/admin/edit/product/${product._id}`}>
-              <Button>Edit</Button>
+              <Button variant='primary'>Edit</Button>
             </Link>
             <Button
               variant='primary'

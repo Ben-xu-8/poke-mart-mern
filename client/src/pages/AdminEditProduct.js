@@ -13,9 +13,6 @@ import NavBar from '../components/NavBar';
 import axios from 'axios';
 
 const Container = styled.div``;
-const Buttons = styled.div`
-  border: 2px solid black;
-`;
 const Image = styled.div``;
 const Head = styled.div`
   display: flex;
@@ -40,7 +37,7 @@ const EditPage = styled.div`
 `;
 
 const AdminEditProduct = (props) => {
-  const productId = useParams();
+  const { productId } = useParams();
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.products);
   const { categories } = useSelector((state) => state.categories);
@@ -75,6 +72,7 @@ const AdminEditProduct = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(productId);
 
     const formData = new FormData();
     formData.append('productImage', productImage);
