@@ -7,6 +7,7 @@ import {
 import {
   CREATE_PRODUCT,
   GET_PRODUCTS,
+  GET_PRODUCT,
   DELETE_PRODUCT,
 } from '../constants/productConstants';
 
@@ -68,5 +69,24 @@ export const deleteProduct = (productId) => async (dispatch) => {
       type: SHOW_ERROR_MESSAGE,
       payload: err.response.data.errorMessage,
     });
+  }
+};
+
+export const getProduct = (productId) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const response = await axios.get(`/api/product/${productId}`);
+    dispatch({ type: STOP_LOADING });
+    dispatch({
+      type: GET_PRODUCT,
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log('Get Product API Error', err);
+    dispatch({ type: STOP_LOADING });
+    // dispatch({
+    //   type: SHOW_ERROR_MESSAGE,
+    //   payload: err.response.data.errorMessage,
+    // });
   }
 };

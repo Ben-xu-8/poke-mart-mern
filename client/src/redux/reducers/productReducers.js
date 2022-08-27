@@ -2,6 +2,7 @@ import {
   GET_PRODUCTS,
   CREATE_PRODUCT,
   DELETE_PRODUCT,
+  GET_PRODUCT,
 } from '../constants/productConstants';
 
 const INITIAL_STATE = {
@@ -21,6 +22,10 @@ const productReducer = (state = INITIAL_STATE, action) => {
     case GET_PRODUCTS:
       return {
         products: [...action.payload],
+      };
+    case GET_PRODUCT:
+      return {
+        product: action.payload,
       };
     default:
       return state;

@@ -50,6 +50,7 @@ exports.readAll = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const productId = req.params.productId;
+    console.log(productId);
     const deletedProduct = await Product.findByIdAndDelete(productId);
     fs.unlink(`uploads/${deletedProduct.fileName}`, (err) => {
       if (err) throw err;
@@ -65,4 +66,24 @@ exports.delete = async (req, res) => {
       errorMessage: 'Please Try Again',
     });
   }
+};
+
+exports.read = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const product = await Product.findById(productId);
+    res.json(product);
+  } catch (err) {
+    console.log(err, 'Read Product Error');
+    res.status(500).json({
+      errorMessage: 'Please Try Again',
+    });
+  }
+};
+
+exports.update = async (req, res) => {
+  const product = req.params.productId;
+  console.log('req.body', req.body);
+  console.log('req.file', req.file);
+  console.log(product);
 };

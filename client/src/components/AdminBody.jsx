@@ -18,9 +18,10 @@ const AdminBody = () => {
   return (
     <Container>
       <Wrapper>
-        {products.map((product) => (
-          <CardDeck key={product._id} product={product} />
-        ))}
+        {products &&
+          products.map((product) => (
+            <CardDeck key={product._id} product={product} />
+          ))}
       </Wrapper>
     </Container>
   );
