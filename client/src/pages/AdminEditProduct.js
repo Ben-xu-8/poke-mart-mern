@@ -11,6 +11,8 @@ import { getCategories } from '../redux/actions/categoryActions';
 import AdminNavBar from '../components/AdminNavBar';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { deleteProduct } from '../redux/actions/productActions';
 
 const Container = styled.div``;
 const Image = styled.div``;
@@ -37,8 +39,10 @@ const EditPage = styled.div`
 `;
 
 const AdminEditProduct = (props) => {
+  const productIds = useParams();
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { product } = useSelector((state) => state.products);
   const { categories } = useSelector((state) => state.categories);
 
@@ -52,7 +56,7 @@ const AdminEditProduct = (props) => {
 
   useEffect(() => {
     if (!product) {
-      dispatch(getProduct(productId.productId));
+      dispatch(getProduct(productIds.productId));
       dispatch(getCategories());
     } else {
       setProductImage(product.fileName);
@@ -63,7 +67,7 @@ const AdminEditProduct = (props) => {
       setProductType(product.productType);
       setProductProduct(product.productProduct);
     }
-  }, [dispatch, productId, product]);
+  }, [dispatch, productIds, product]);
 
   const handleImage = (e) => {
     const image = e.target.files[0];
@@ -93,6 +97,7 @@ const AdminEditProduct = (props) => {
       .put(`/api/product/${productId}`, formData, config)
       .then((res) => {
         console.log('success', res);
+        navigate('/admin/dashboard');
       })
       .catch((err) => {
         console.log(err);
@@ -225,6 +230,12 @@ const AdminEditProduct = (props) => {
             <Modal.Footer>
               <Button type='submit' variant='primary'>
                 Submit
+              </Button>
+              <Button
+                variant='primary'
+                onClick={() => dispatch(deleteProduct(product._id))}
+              >
+                Delete
               </Button>
             </Modal.Footer>
           </Form>

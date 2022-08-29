@@ -15,6 +15,7 @@ import {
 import { clearMessages } from '../redux/actions/messageActions';
 import { getProducts, createProduct } from '../redux/actions/productActions';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CategoryListItemOne = styled.button`
   display: flex;
@@ -103,6 +104,8 @@ const DashboardName = styled.div`
 `;
 
 const AdminNavBar = () => {
+  const navigate = useNavigate();
+
   const { successMsg, errorMsg } = useSelector((state) => state.messages);
   const { loading } = useSelector((state) => state.loading);
   const { categories } = useSelector((state) => state.categories);
@@ -163,6 +166,10 @@ const AdminNavBar = () => {
   };
 
   const handleClose = () => setModalState('close');
+
+  const handleRefresh = () => {
+    navigate(0);
+  };
 
   const handleShowOne = () => {
     setModalState('categoryModal');
@@ -416,7 +423,7 @@ const AdminNavBar = () => {
                 <Button variant='secondary' onClick={handleClose}>
                   Close
                 </Button>
-                <Button type='submit' variant='primary'>
+                <Button type='submit' variant='primary' onClick={handleRefresh}>
                   Submit
                 </Button>
               </Modal.Footer>
