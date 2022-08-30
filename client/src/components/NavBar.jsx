@@ -7,9 +7,10 @@ import {
   faHouse,
   faRightFromBracket,
   faUserPen,
-  faAngleDoubleDown,
   faGripHorizontal,
   faDoorOpen,
+  faBagShopping,
+  faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
@@ -27,6 +28,13 @@ const Form = styled.div`
   padding-left: 15px;
 `;
 
+const Search = styled.div`
+  margin-right: 20px;
+`;
+
+const Cart = styled.div`
+  margin-right: 20px;
+`;
 // const Button = styled.button`
 //   border: none;
 //   background-color: white;
@@ -107,6 +115,24 @@ const NavBar = () => {
                       Register
                     </Link>
                   </li>
+                  <li className='nav-item'>
+                    <Link to='/shop' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faBagShopping} />
+                      </Icon>
+                      Products
+                    </Link>
+                  </li>
+                  <li className='nav-item'>
+                    <Link to='#' className='nav-link' href='#'>
+                      <Cart>
+                        <Icon>
+                          <FontAwesomeIcon icon={faShoppingCart} />
+                        </Icon>
+                        Cart
+                      </Cart>
+                    </Link>
+                  </li>
                 </Fragment>
               )}
 
@@ -147,6 +173,14 @@ const NavBar = () => {
                       Home
                     </Link>
                   </li>
+                  <li className='nav-item'>
+                    <Link to='/shop' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faBagShopping} />
+                      </Icon>
+                      Products
+                    </Link>
+                  </li>
                   <li className='nav-item ' onClick={handleLogout}>
                     <button className='btn btn-link text-secondary text-decoration-none pl-0'>
                       <Icon>
@@ -155,56 +189,37 @@ const NavBar = () => {
                       Logout
                     </button>
                   </li>
+                  <Search>
+                    <Form>
+                      <form className='d-flex'>
+                        <input
+                          className='form-control me-2 pl-50'
+                          type='search'
+                          placeholder='Search'
+                          aria-label='Search'
+                        />
+                        <button
+                          className='btn btn-outline-success'
+                          type='submit'
+                        >
+                          Search
+                        </button>
+                      </form>
+                    </Form>
+                  </Search>
+                  <li className='nav-item'>
+                    <Link to='#' className='nav-link' href='#'>
+                      <Cart>
+                        <Icon>
+                          <FontAwesomeIcon icon={faShoppingCart} />
+                        </Icon>
+                        Cart
+                      </Cart>
+                    </Link>
+                  </li>
                 </Fragment>
               )}
-
-              <li className='nav-item dropdown'>
-                <Link
-                  to='#'
-                  className='nav-link dropdown-toggle'
-                  href='#'
-                  id='navbarDropdown'
-                  role='button'
-                  data-bs-toggle='dropdown'
-                  aria-expanded='false'
-                >
-                  <Icon>
-                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                  </Icon>
-                  Products
-                </Link>
-                <ul className='dropdown-menu' aria-labelledby='navbarDropdown'>
-                  <li>
-                    <Link to='#' className='dropdown-item' href='#'>
-                      Pokemon
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' className='dropdown-item' href='#'>
-                      Items
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='#' className='dropdown-item' href='#'>
-                      TM/HM
-                    </Link>
-                  </li>
-                </ul>
-              </li>
             </ul>
-            <Form>
-              <form className='d-flex'>
-                <input
-                  className='form-control me-2'
-                  type='search'
-                  placeholder='Search'
-                  aria-label='Search'
-                />
-                <button className='btn btn-outline-success' type='submit'>
-                  Search
-                </button>
-              </form>
-            </Form>
           </div>
         </div>
       </nav>

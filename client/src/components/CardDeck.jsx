@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const Buttons = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `;
 const Title = styled.div`
   text-align: center;
@@ -32,8 +32,9 @@ const Picture = styled.div`
   width: 200px;
   margin: auto;
 `;
+const HomeButton = styled.div``;
 
-const CardDeck = ({ product }) => {
+const CardDeck = ({ product, adminPage = false, homePage = false }) => {
   const dispatch = useDispatch();
   return (
     <Wrapper>
@@ -55,17 +56,36 @@ const CardDeck = ({ product }) => {
               {product.productDesc && product.productDesc.substr(0, 65) + '...'}
             </Card.Text>
           </TextDesc>
-          <Buttons>
-            <Link to={`/admin/edit/product/${product._id}`}>
-              <Button variant='primary'>Edit</Button>
-            </Link>
-            <Button
-              variant='primary'
-              onClick={() => dispatch(deleteProduct(product._id))}
-            >
-              Delete
-            </Button>
-          </Buttons>
+          {adminPage && (
+            <>
+              <Buttons>
+                <Link to={`/admin/edit/product/${product._id}`}>
+                  <Button variant='primary'>Edit</Button>
+                </Link>
+                <Button
+                  variant='primary'
+                  onClick={() => dispatch(deleteProduct(product._id))}
+                >
+                  Delete
+                </Button>
+              </Buttons>
+            </>
+          )}
+
+          {homePage && (
+            <>
+              <Buttons>
+                <Link to={'#'}>
+                  <HomeButton>
+                    <Button variant='primary'>Details</Button>
+                  </HomeButton>
+                </Link>
+                <HomeButton>
+                  <Button variant='primary'>Add Cart</Button>
+                </HomeButton>
+              </Buttons>
+            </>
+          )}
         </Card.Body>
       </Card>
     </Wrapper>

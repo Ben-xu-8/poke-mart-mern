@@ -47,6 +47,20 @@ exports.readAll = async (req, res) => {
   }
 };
 
+exports.readByCount = async (req, res) => {
+  try {
+    const products = await Product.find({})
+      .populate('productType', 'category')
+      .limit(8);
+    res.json({ products });
+  } catch (err) {
+    console.log(err, 'Read Product Error');
+    res.status(500).json({
+      errorMessage: 'Please Try Again',
+    });
+  }
+};
+
 exports.delete = async (req, res) => {
   try {
     const productId = req.params.productId;

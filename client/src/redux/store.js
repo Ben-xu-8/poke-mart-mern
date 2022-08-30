@@ -6,6 +6,7 @@ import loadingReducer from './reducers/loadingReducers';
 import messageReducer from './reducers/messageReducer';
 import categoryReducers from './reducers/categoryReducers';
 import productReducer from './reducers/productReducers';
+import filterReducer from './reducers/filterReducers';
 
 const initialState = {};
 const middleware = [thunk];
@@ -17,6 +18,7 @@ const store = configureStore(
       messages: messageReducer,
       categories: categoryReducers,
       products: productReducer,
+      filters: filterReducer,
     },
   },
   initialState,

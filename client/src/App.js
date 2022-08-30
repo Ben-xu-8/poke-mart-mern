@@ -4,6 +4,7 @@ import SignIn from './pages/SignIn';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
+import Shop from './pages/Shop';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEditProduct from './pages/AdminEditProduct';
@@ -25,6 +26,7 @@ const App = () => {
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/shop' element={<Shop />} />
           <Route path='/register' element={<Register />} />
           <Route path='/signin' element={<SignIn />} />
           <Route element={<UserRoute />}>

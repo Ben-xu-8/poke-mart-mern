@@ -1,0 +1,1 @@
+export const GET_NEW_PRODUCTS = 'GET_NEW_PRODUCTS';

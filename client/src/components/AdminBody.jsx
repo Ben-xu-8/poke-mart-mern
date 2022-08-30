@@ -20,7 +20,7 @@ const AdminBody = () => {
       <Wrapper>
         {products &&
           products.map((product) => (
-            <CardDeck key={product._id} product={product} />
+            <CardDeck key={product._id} product={product} adminPage={true} />
           ))}
       </Wrapper>
     </Container>
