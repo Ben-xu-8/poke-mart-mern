@@ -7,6 +7,7 @@ import messageReducer from './reducers/messageReducer';
 import categoryReducers from './reducers/categoryReducers';
 import productReducer from './reducers/productReducers';
 import filterReducer from './reducers/filterReducers';
+import cartReducer from './reducers/cartReducers';
 
 const initialState = {};
 const middleware = [thunk];
@@ -19,6 +20,7 @@ const store = configureStore(
       categories: categoryReducers,
       products: productReducer,
       filters: filterReducer,
+      cart: cartReducer,
     },
   },
   initialState,

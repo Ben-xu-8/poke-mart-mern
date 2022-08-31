@@ -191,7 +191,7 @@ const AdminEditProduct = (props) => {
                   <Form.Control
                     type='number'
                     placeholder='Enter Pokemon Here'
-                    min='1'
+                    min='0'
                     max='99'
                     name='productQty'
                     value={productQty}

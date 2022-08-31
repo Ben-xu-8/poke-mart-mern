@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import Product from './pages/Product';
+import Cart from './pages/Cart';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminEditProduct from './pages/AdminEditProduct';
@@ -28,6 +29,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/shop' element={<Shop />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/product/:productId' element={<Product />} />
           <Route path='/register' element={<Register />} />
           <Route path='/signin' element={<SignIn />} />

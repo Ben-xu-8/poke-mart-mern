@@ -3,6 +3,10 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { isAuth, logout } from '../helpers/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
+import { Badge } from '@mui/material';
+import { ShoppingCartOutlined } from '@mui/icons-material';
+
 import {
   faHouseChimney,
   faRightFromBracket,
@@ -33,6 +37,7 @@ const Search = styled.div`
 `;
 
 const Cart = styled.div`
+  margin-left: 38px;
   margin-right: 20px;
 `;
 // const Button = styled.button`
@@ -58,6 +63,9 @@ function withRouter(Component) {
 
 const NavBar = () => {
   const navigate = useNavigate();
+
+  const cart = useSelector((state) => state.cart);
+
   const handleLogout = (evt) => {
     logout(() => {
       navigate('/signin');
@@ -124,12 +132,16 @@ const NavBar = () => {
                     </Link>
                   </li>
                   <li className='nav-item'>
-                    <Link to='#' className='nav-link' href='#'>
+                    <Link to='/cart' className='nav-link' href='#'>
                       <Cart>
                         <Icon>
-                          <FontAwesomeIcon icon={faShoppingCart} />
+                          <Badge
+                            badgeContent={cart.cart.length}
+                            color='primary'
+                          >
+                            <ShoppingCartOutlined />
+                          </Badge>
                         </Icon>
-                        Cart
                       </Cart>
                     </Link>
                   </li>
@@ -207,7 +219,7 @@ const NavBar = () => {
                     </Form>
                   </Search>
                   <li className='nav-item'>
-                    <Link to='#' className='nav-link' href='#'>
+                    <Link to='/cart' className='nav-link' href='#'>
                       <Cart>
                         <Icon>
                           <FontAwesomeIcon icon={faShoppingCart} />

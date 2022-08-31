@@ -98,13 +98,17 @@ exports.read = async (req, res) => {
 exports.update = async (req, res) => {
   const productId = req.params.productId;
 
-  req.body.fileName = req.file.filename;
+  if (req.file !== undefined) {
+    req.body.fileName = req.file.filename;
+  }
 
   const prevProduct = await Product.findByIdAndUpdate(productId, req.body);
 
-  fs.unlink(`uploads/${prevProduct.fileName}`, (err) => {
-    if (err) throw err;
-    console.log('Image Successfully Deleted');
-  });
+  if (req.file !== undefined && req.file.filename !== oldProduct.fileName) {
+    fs.unlink(`uploads/${prevProduct.fileName}`, (err) => {
+      if (err) throw err;
+      console.log('Image Successfully Deleted');
+    });
+  }
   res.json();
 };

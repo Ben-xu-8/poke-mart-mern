@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { START_LOADING, STOP_LOADING } from '../constants/loadingConstants';
-import {
-  SHOW_ERROR_MESSAGE,
-  SHOW_SUCCESS_MESSAGE,
-} from '../constants/messageConstants';
+// import {
+//   SHOW_ERROR_MESSAGE,
+//   SHOW_SUCCESS_MESSAGE,
+// } from '../constants/messageConstants';
 import { GET_NEW_PRODUCTS } from '../constants/filterConstants';
 import { GET_PRODUCTS } from '../constants/productConstants';
 

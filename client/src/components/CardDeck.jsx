@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { deleteProduct } from '../redux/actions/productActions';
+import { addToCart } from '../redux/actions/cartActions';
 import { Link } from 'react-router-dom';
 
 const Buttons = styled.div`
@@ -36,6 +37,11 @@ const HomeButton = styled.div``;
 
 const CardDeck = ({ product, adminPage = false, homePage = false }) => {
   const dispatch = useDispatch();
+
+  const handleAddCart = () => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <Wrapper>
       <Card style={{ width: '14rem' }}>
@@ -88,6 +94,7 @@ const CardDeck = ({ product, adminPage = false, homePage = false }) => {
                     type='button'
                     variant='primary'
                     disabled={product.productQty <= 0}
+                    onClick={handleAddCart}
                   >
                     Add Cart
                   </Button>

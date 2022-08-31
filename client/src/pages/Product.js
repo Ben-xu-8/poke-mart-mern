@@ -7,6 +7,7 @@ import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../responsive';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../redux/actions/cartActions';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -44,17 +45,6 @@ const Filter = styled.div`
   display: flex;
   align-items: center;
 `;
-const FilterTitle = styled.span`
-  font-size: 22px;
-`;
-const FilterColor = styled.div`
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin: 0px 5px;
-  cursor: pointer;
-`;
 
 const AddContainer = styled.div`
   width: 40%;
@@ -81,11 +71,15 @@ const Button = styled.button`
   background-color: white;
   cursor: pointer;
   border: 3px solid #d61c4e;
-  padding: 20px;
+  padding: 12px;
 `;
 
 const ProductContainer = styled.div`
   display: flex;
+`;
+
+const ButtonContainer = styled.div`
+  float: right;
 `;
 
 const Product = () => {
@@ -101,6 +95,10 @@ const Product = () => {
   }, [dispatch, productId]);
 
   const { product } = useSelector((state) => state.products);
+
+  const handleAddCart = () => {
+    dispatch(addToCart(product));
+  };
 
   const handleQuantity = (type) => {
     if (type === 'dec') {
@@ -135,9 +133,15 @@ const Product = () => {
                   <Amount>{quantity}</Amount>
                   <Add onClick={() => handleQuantity('inc')} />
                 </AmountContainer>
-                <Button type='submit' disabled={product.productQty <= 0}>
-                  Add to Cart
-                </Button>
+                <ButtonContainer>
+                  <Button
+                    type='submit'
+                    onClick={handleAddCart}
+                    disabled={product.productQty <= 0}
+                  >
+                    Add to Cart
+                  </Button>
+                </ButtonContainer>
               </AddContainer>
             </InfoContainer>
           </ProductContainer>
