@@ -4,6 +4,6 @@ const categoryController = require('../controllers/category');
 const { authJWT } = require('../middleware/auth');
 
 router.post('/', authJWT, categoryController.create);
-router.get('/', authJWT, categoryController.read);
+router.get('/', categoryController.read);
 
 module.exports = router;

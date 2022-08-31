@@ -5,5 +5,6 @@ const upload = require('../middleware/multer');
 const filterController = require('../controllers/filter');
 
 router.get('/', filterController.getNewProducts);
+router.post('/search', filterController.searchedByQuery);
 
 module.exports = router;

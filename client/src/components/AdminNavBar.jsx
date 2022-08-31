@@ -4,7 +4,11 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faPlus, faScroll } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHouseChimney,
+  faPlus,
+  faScroll,
+} from '@fortawesome/free-solid-svg-icons';
 import isEmpty from 'validator/lib/isEmpty';
 import { showErrorMsg, showSuccessMsg } from '../helpers/message';
 import { showLoading } from '../helpers/loading';
@@ -241,7 +245,7 @@ const AdminNavBar = () => {
         <Title>
           <Header>
             <Icon>
-              <FontAwesomeIcon icon={faHouse} />
+              <FontAwesomeIcon icon={faHouseChimney} />
             </Icon>
             <DashboardName>Dashboard</DashboardName>
           </Header>

@@ -18,7 +18,7 @@ const Text = styled.div`
 `;
 
 const TextDesc = styled.div`
-  text-align: left;
+  text-align: center;
   padding-bottom: 40px;
 `;
 
@@ -28,8 +28,8 @@ const Wrapper = styled.div`
 `;
 
 const Picture = styled.div`
-  height: 200px;
-  width: 200px;
+  height: 30vh;
+  width: 100%;
   margin: auto;
 `;
 const HomeButton = styled.div``;
@@ -55,6 +55,9 @@ const CardDeck = ({ product, adminPage = false, homePage = false }) => {
             <Card.Text>
               {product.productDesc && product.productDesc.substr(0, 65) + '...'}
             </Card.Text>
+            <Card.Text>
+              {product.productQty <= 0 ? 'Out Of Stock' : 'In Stock'}
+            </Card.Text>
           </TextDesc>
           {adminPage && (
             <>
@@ -75,13 +78,19 @@ const CardDeck = ({ product, adminPage = false, homePage = false }) => {
           {homePage && (
             <>
               <Buttons>
-                <Link to={'#'}>
+                <Link to={`/product/${product._id}`}>
                   <HomeButton>
                     <Button variant='primary'>Details</Button>
                   </HomeButton>
                 </Link>
                 <HomeButton>
-                  <Button variant='primary'>Add Cart</Button>
+                  <Button
+                    type='button'
+                    variant='primary'
+                    disabled={product.productQty <= 0}
+                  >
+                    Add Cart
+                  </Button>
                 </HomeButton>
               </Buttons>
             </>

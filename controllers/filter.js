@@ -18,3 +18,27 @@ exports.getNewProducts = async (req, res) => {
     });
   }
 };
+
+exports.searchedByQuery = async (req, res) => {
+  const { type, query } = req.body;
+  try {
+    let products;
+    switch (type) {
+      case 'text':
+        products = await Product.find({ $text: { $search: query } });
+        break;
+      case 'category':
+        products = await Product.find({ productType: query });
+        break;
+    }
+    if (!products.length > 0) {
+      products = await Product.find({});
+    }
+    res.json({ products });
+  } catch (err) {
+    console.log(err, 'Filtered Error');
+    res.status(500).json({
+      errorMessage: 'Please Try Again',
+    });
+  }
+};

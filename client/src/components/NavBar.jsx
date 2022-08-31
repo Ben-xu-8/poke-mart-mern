@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { isAuth, logout } from '../helpers/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHouse,
+  faHouseChimney,
   faRightFromBracket,
   faUserPen,
   faGripHorizontal,
@@ -89,7 +89,7 @@ const NavBar = () => {
                   <li className='nav-item'>
                     <Link to='/' className='nav-link' href='#'>
                       <Icon>
-                        <FontAwesomeIcon icon={faHouse} />
+                        <FontAwesomeIcon icon={faHouseChimney} />
                       </Icon>
                       Home
                     </Link>
@@ -165,10 +165,9 @@ const NavBar = () => {
               {isAuth() && (
                 <Fragment>
                   <li className='nav-item'>
-                    <FontAwesomeIcon icon='faHouse' />
                     <Link to='/' className='nav-link' href='#'>
                       <Icon>
-                        <FontAwesomeIcon icon={faHouse} />
+                        <FontAwesomeIcon icon={faHouseChimney} />
                       </Icon>
                       Home
                     </Link>
