@@ -1,4 +1,4 @@
-import { ADD_CART } from '../constants/cartConstant';
+import { ADD_CART, DELETE_CART_ITEM } from '../constants/cartConstant';
 
 export const addToCart = (product) => async (dispatch) => {
   const cart = localStorage.getItem('cart')
@@ -20,4 +20,18 @@ export const addToCart = (product) => async (dispatch) => {
       payload: cart,
     });
   }
+};
+
+export const deleteCartItem = (product) => async (dispatch) => {
+  const cart = localStorage.getItem('cart')
+    ? JSON.parse(localStorage.getItem('cart'))
+    : [];
+
+  const updatedCart = cart.filter((cartItem) => cartItem._id !== product._id);
+  localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+  dispatch({
+    type: DELETE_CART_ITEM,
+    payload: updatedCart,
+  });
 };

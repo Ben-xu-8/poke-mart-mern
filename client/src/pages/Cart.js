@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ADD_CART } from '../redux/constants/cartConstant';
+import { deleteCartItem } from '../redux/actions/cartActions';
 
 // const KEY = process.env.REACT_APP_STRIPE;
 
@@ -160,6 +162,10 @@ const Cart = () => {
       }
     });
     localStorage.setItem('cart', JSON.stringify(cart));
+    dispatch({
+      type: ADD_CART,
+      payload: cart,
+    });
   };
 
   //   const onToken = (token) => {
@@ -221,7 +227,13 @@ const Cart = () => {
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
-                    <ProductPrice>$ {cart.productPrice}</ProductPrice>
+                    <ProductPrice>
+                      {' '}
+                      {cart.productPrice.toLocaleString('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </ProductPrice>
                     <ProductAmountContainer>
                       <Amount>
                         <input
@@ -235,17 +247,32 @@ const Cart = () => {
                         />
                       </Amount>
                     </ProductAmountContainer>
-                    <DeleteIcon />
+                    <DeleteIcon
+                      type='button'
+                      onClick={() => dispatch(deleteCartItem(cart))}
+                    />
                   </PriceDetail>
                 </Product>
               ))}
           </Info>
           <hr />
           <Summary>
-            <SummaryTitle>Order Summary</SummaryTitle>
+            <SummaryTitle>
+              Order Summary {cart.length === 1 ? '(1)' : `(${cart.length})`}{' '}
+            </SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice> </SummaryItemPrice>
+              <SummaryItemPrice>
+                $
+                {cart
+                  .reduce(
+                    (currentSum, currentCartItem) =>
+                      currentSum +
+                      currentCartItem.count * currentCartItem.productPrice,
+                    0
+                  )
+                  .toFixed(2)}
+              </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -257,9 +284,20 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem type='total'>
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice> </SummaryItemPrice>
+              <SummaryItemPrice>
+                {' '}
+                $
+                {cart
+                  .reduce(
+                    (currentSum, currentCartItem) =>
+                      currentSum +
+                      currentCartItem.count * currentCartItem.productPrice,
+                    0
+                  )
+                  .toFixed(2)}
+              </SummaryItemPrice>
             </SummaryItem>
-            {/* <StripeCheckout
+            <StripeCheckout
               name='Poke-Mart'
               image='/images/rayquaza.png'
               billingAddress
@@ -270,7 +308,7 @@ const Cart = () => {
               stripeKey={KEY}
             >
               <Button>Checkout</Button>
-            </StripeCheckout> */}
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>
