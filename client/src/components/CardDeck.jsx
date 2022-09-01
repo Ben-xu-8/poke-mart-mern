@@ -46,7 +46,9 @@ const CardDeck = ({ product, adminPage = false, homePage = false }) => {
     <Wrapper>
       <Card style={{ width: '14rem' }}>
         <Picture>
-          <Card.Img variant='top' src={`/uploads/${product.fileName}`} />
+          <Link to={`/product/${product._id}`}>
+            <Card.Img variant='top' src={`/uploads/${product.fileName}`} />
+          </Link>
         </Picture>
         <Card.Body>
           <Title>

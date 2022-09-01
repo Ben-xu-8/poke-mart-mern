@@ -7,11 +7,12 @@ import { mobile } from '../responsive';
 // import { userRequest } from '../requestMethod';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
-import { Add, Remove } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const KEY = process.env.REACT_APP_STRIPE;
+// const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 const Title = styled.div`
@@ -19,11 +20,14 @@ const Title = styled.div`
   font-size: 25px;
 `;
 const Wrapper = styled.div`
+  margin: 0 10%;
+
   padding: 20px;
 `;
 const Top = styled.div`
+  margin: 0 10%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 18px;
 `;
 
@@ -49,46 +53,47 @@ const TopButton = styled.button`
   color: ${(props) => props.type === 'filled' && 'white'};
 `;
 const Bottom = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: 'column' })}
 `;
 const Info = styled.div`
-  flex: 3;
+  flex: 2;
 `;
 
 const Product = styled.div`
   display: flex;
-  justify-content: space-between;
-  ${mobile({ flexDirection: 'column' })}
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  ${mobile({ flexDirection: 'column' })};
+  border-bottom: 4px solid #eeee;
 `;
 const ProductDetail = styled.div`
-  flex: 2;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 const Image = styled.img`
-  width: 200px;
+  width: 120px;
 `;
 const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   justify-content: space-around;
 `;
-const ProductName = styled.div``;
-const ProductID = styled.div``;
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
+const ProductName = styled.div`
+  text-decoration: none;
 `;
+const ProductID = styled.div`
+  justify-content: space-between;
+`;
+
 const PriceDetail = styled.div`
+  width: 100%;
   display: flex;
-  flex: 1;
-  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  justify-content: center;
 `;
 
 const ProductAmountContainer = styled.div`
@@ -98,13 +103,8 @@ const ProductAmountContainer = styled.div`
   ${mobile({ margin: '20px 0px' })}
 `;
 
-const Hr = styled.hr`
-  background-color: #eeee;
-  height: 1px;
-`;
-
 const Amount = styled.div`
-  font-size: 15px;
+  font-size: 1.2rem;
   ${mobile({ fontSize: '20px' })}
 `;
 const ProductPrice = styled.div`
@@ -127,7 +127,6 @@ const SummaryItem = styled.div`
   margin: 20px 0px;
   display: flex;
   justify-content: space-between;
-  font-size: ${(props) => props.type === 'total' && '24px'};
 `;
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
@@ -141,16 +140,27 @@ const Button = styled.button`
 const Cart = () => {
   //   const cart = useSelector((state) => state.cart);
   //   const [stripeToken, setStripeToken] = useState(null);
-  let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { products } = useSelector((state) => state.products);
   const { cart } = useSelector((state) => state.cart);
   console.log(cart);
 
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
+
+  const handleQtyChange = (e, product) => {
+    const cart = localStorage.getItem('cart')
+      ? JSON.parse(localStorage.getItem('cart'))
+      : [];
+
+    cart.forEach((cartItem) => {
+      if (cartItem._id === product._id) {
+        cartItem.count = e.target.value;
+      }
+    });
+    localStorage.setItem('cart', JSON.stringify(cart));
+  };
 
   //   const onToken = (token) => {
   //     setStripeToken(token);
@@ -178,7 +188,9 @@ const Cart = () => {
       <Wrapper>
         <Title>Your Cart</Title>
         <Top>
-          <TopButton>Continue Shopping</TopButton>
+          <Link to='/shop'>
+            <TopButton>Continue Shopping</TopButton>
+          </Link>
           <TopTexts>
             <TopText>Shopping Bag</TopText>
             <TopText>Your Wishlist</TopText>
@@ -194,25 +206,41 @@ const Cart = () => {
                     <Image src={`/uploads/${cart.fileName}`} />
                     <Details>
                       <ProductName>
-                        <b>Product:</b> {cart.productName}
+                        <Link
+                          style={{
+                            textDecoration: 'none',
+                            color: 'black',
+                            fontSize: '1.3rem',
+                          }}
+                          to={`/product/${cart._id}`}
+                        >
+                          <b>{cart.productName}</b>
+                        </Link>
                       </ProductName>
-                      <ProductID>
-                        <b>Product ID:</b> {cart._id}
-                      </ProductID>
+                      <ProductID>{cart.productProduct}</ProductID>
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
+                    <ProductPrice>$ {cart.productPrice}</ProductPrice>
                     <ProductAmountContainer>
-                      <Remove />
-                      <Amount>{cart.quantity}</Amount>
-                      <Add />
+                      <Amount>
+                        <input
+                          type='number'
+                          min='1'
+                          max={cart.productQty}
+                          value={cart.count}
+                          onChange={(e) => {
+                            handleQtyChange(e, cart);
+                          }}
+                        />
+                      </Amount>
                     </ProductAmountContainer>
-                    <ProductPrice>$ {cart.price * cart.quantity}</ProductPrice>
+                    <DeleteIcon />
                   </PriceDetail>
                 </Product>
               ))}
-            <Hr />
           </Info>
+          <hr />
           <Summary>
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>

@@ -8,6 +8,8 @@ import { mobile } from '../responsive';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/actions/cartActions';
+import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -49,8 +51,7 @@ const Filter = styled.div`
 const AddContainer = styled.div`
   width: 40%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: left;
   ${mobile({ width: '100%' })}
 `;
 const AmountContainer = styled.div`
@@ -88,8 +89,6 @@ const Product = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
 
-  const [quantity, setQuantity] = useState(1);
-
   useEffect(() => {
     dispatch(getProduct(productId));
   }, [dispatch, productId]);
@@ -100,18 +99,21 @@ const Product = () => {
     dispatch(addToCart(product));
   };
 
-  const handleQuantity = (type) => {
-    if (type === 'dec') {
-      quantity > 1 && setQuantity(quantity - 1);
-    } else {
-      setQuantity(quantity + 1);
-    }
-  };
   return (
     <Container>
       <NavBar />
       <Announcement />
       <Wrapper>
+        <Link
+          type='button'
+          style={{
+            color: 'black',
+            fontSize: '1.3rem',
+          }}
+          to='/shop'
+        >
+          <ArrowBackIcon />
+        </Link>
         {product && (
           <ProductContainer>
             <ImgContainer>
@@ -128,11 +130,7 @@ const Product = () => {
                 </Filter>
               </FilterContainer>
               <AddContainer>
-                <AmountContainer>
-                  <Remove onClick={() => handleQuantity('dec')} />
-                  <Amount>{quantity}</Amount>
-                  <Add onClick={() => handleQuantity('inc')} />
-                </AmountContainer>
+                <AmountContainer></AmountContainer>
                 <ButtonContainer>
                   <Button
                     type='submit'
