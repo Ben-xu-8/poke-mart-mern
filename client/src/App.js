@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import SignIn from './pages/SignIn';
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
@@ -12,8 +14,9 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminEditProduct from './pages/AdminEditProduct';
 import AdminRoute from './pages/AdminRoute';
 import UserRoute from './pages/UserRoute';
-// Redux
+import '@stripe/stripe-js';
 
+import { Navigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getCategories } from './redux/actions/categoryActions';
 
@@ -28,6 +31,8 @@ const App = () => {
       <main>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/success' element={<Navigate to='/' />} />
+          <Route path='/cancel' element={<Navigate to='/cart' />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/product/:productId' element={<Product />} />

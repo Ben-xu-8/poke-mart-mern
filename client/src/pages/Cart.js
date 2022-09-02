@@ -3,8 +3,7 @@ import Announcement from '../components/Announcement';
 import NavBar from '../components/NavBar';
 // import NewsLetter from '../components/NewsLetter';
 import { mobile } from '../responsive';
-// import StripeCheckout from 'react-stripe-checkout';
-// import { userRequest } from '../requestMethod';
+import { loadStripe } from '@stripe/stripe-js';
 import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
 import { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ADD_CART } from '../redux/constants/cartConstant';
 import { deleteCartItem } from '../redux/actions/cartActions';
-
+import getStripe from '../helpers/stripe';
 // const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
@@ -138,14 +137,12 @@ const Button = styled.button`
   background-color: black;
   color: white;
 `;
+const Checkout = styled.div``;
 
 const Cart = () => {
-  //   const cart = useSelector((state) => state.cart);
-  //   const [stripeToken, setStripeToken] = useState(null);
   const dispatch = useDispatch();
 
   const { cart } = useSelector((state) => state.cart);
-  console.log(cart);
 
   useEffect(() => {
     dispatch(getProducts());
@@ -168,25 +165,27 @@ const Cart = () => {
     });
   };
 
-  //   const onToken = (token) => {
-  //     setStripeToken(token);
-  //   };
+  const handleCheckout = () => {
+    fetch('/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cart }),
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then(({ url }) => {
+        console.log(url);
+        window.location = url;
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  };
 
-  //   useEffect(() => {
-  //     const makeRequest = async () => {
-  //       try {
-  //         const res = await userRequest.post('/checkout/payment', {
-  //           tokenId: stripeToken.id,
-  //           amount: cart.total * 100,
-  //         });
-  //         navigate('/success', {
-  //           stripeData: res.data,
-  //           products: cart,
-  //         });
-  //       } catch {}
-  //     };
-  //     stripeToken && makeRequest();
-  //   }, [stripeToken, cart.total, navigate]);
   return (
     <Container>
       <NavBar />
@@ -297,18 +296,9 @@ const Cart = () => {
                   .toFixed(2)}
               </SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
-              name='Poke-Mart'
-              image='/images/rayquaza.png'
-              billingAddress
-              shippingAddress
-              description={`Your Total is $${cart.total}`}
-              amount={cart.total * 100}
-              token={onToken}
-              stripeKey={KEY}
-            >
-              <Button>Checkout</Button>
-            </StripeCheckout>
+            <Checkout>
+              <Button onClick={handleCheckout}>Checkout</Button>
+            </Checkout>
           </Summary>
         </Bottom>
       </Wrapper>

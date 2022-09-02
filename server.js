@@ -1,4 +1,6 @@
 const express = require('express');
+require('dotenv').config();
+const dotenv = require('dotenv');
 const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
@@ -8,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const filterRoutes = require('./routes/filter');
+const stripeRoutes = require('./routes/stripe');
 
 // Middleware
 app.use(cors());
@@ -17,8 +20,9 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes);
-app.use('/uploads', express.static('uploads'));
 app.use('/api/filter', filterRoutes);
+app.use('/uploads', express.static('uploads'));
+app.post('/create-checkout-session', stripeRoutes);
 
 connectDB();
 

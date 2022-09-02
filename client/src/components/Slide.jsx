@@ -3,6 +3,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { sliderItems } from '../data';
 import { mobile } from '../responsive';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   height: 100vh;
@@ -94,7 +95,9 @@ const Slide = () => {
             <InfoCont>
               <Title>{item.title}</Title>
               <Description>{item.desc}</Description>
-              <Button>Learn More!</Button>
+              <Link to='/shop'>
+                <Button>Learn More!</Button>
+              </Link>
             </InfoCont>
           </Slider>
         ))}

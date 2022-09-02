@@ -11,6 +11,8 @@ import Banner from '../components/Announcement';
 import NavBar from '../components/NavBar';
 import Slide from '../components/Slide';
 import Categories from '../components/Categories';
+import NewsLetter from '../components/NewsLetter';
+import Footer from '../components/Footer';
 
 const LoadingProduct = styled.div``;
 const NewProductContainer = styled.div`
@@ -78,6 +80,8 @@ const Home = () => {
           </Products>
         </NewProductContainer>
       )}
+      <NewsLetter />
+      <Footer />
     </div>
   );
 };
