@@ -148,23 +148,12 @@ const NavBar = () => {
                 </Fragment>
               )}
 
-              {isAuth() && isAuth().role === 0 && (
-                <Fragment>
-                  <li className='nav-item'>
-                    <Link to='/' className='nav-link' href='#'>
-                      <Icon>
-                        <FontAwesomeIcon icon={faGripHorizontal} />
-                      </Icon>
-                      Dashboard
-                    </Link>
-                  </li>
-                </Fragment>
-              )}
+              {isAuth() && isAuth().role === 0 && <Fragment></Fragment>}
 
               {isAuth() && isAuth().role === 1 && (
                 <Fragment>
                   <li className='nav-item'>
-                    <Link to='/' className='nav-link' href='#'>
+                    <Link to='/admin/dashboard' className='nav-link' href='#'>
                       <Icon>
                         <FontAwesomeIcon icon={faGripHorizontal} />
                       </Icon>
@@ -200,31 +189,12 @@ const NavBar = () => {
                       Logout
                     </button>
                   </li>
-                  <Search>
-                    <Form>
-                      <form className='d-flex'>
-                        <input
-                          className='form-control me-2 pl-50'
-                          type='search'
-                          placeholder='Search'
-                          aria-label='Search'
-                        />
-                        <button
-                          className='btn btn-outline-success'
-                          type='submit'
-                        >
-                          Search
-                        </button>
-                      </form>
-                    </Form>
-                  </Search>
                   <li className='nav-item'>
                     <Link to='/cart' className='nav-link' href='#'>
                       <Cart>
                         <Icon>
                           <FontAwesomeIcon icon={faShoppingCart} />
                         </Icon>
-                        Cart
                       </Cart>
                     </Link>
                   </li>

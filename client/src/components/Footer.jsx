@@ -8,6 +8,7 @@ import {
 } from '@mui/icons-material';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -43,7 +44,7 @@ const SocialIcon = styled.div`
 
 const Center = styled.div`
   flex: 1;
-  ${mobile({ display: 'none' })}
+  ${mobile({ display: 'none' })};
 `;
 
 const Title = styled.h3`
@@ -54,10 +55,12 @@ const List = styled.ul`
   margin: 0;
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 `;
 const ListItem = styled.li`
+  text-decoration: none;
   width: 50%;
+  padding-top: 0px;
   margin-bottom: 5px;
 `;
 
@@ -103,15 +106,30 @@ const Footer = () => {
       <Center>
         <Title>Directory</Title>
         <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Pokemon</ListItem>
-          <ListItem>Item</ListItem>
-          <ListItem>TM/HM</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Sign In</ListItem>
-          <ListItem>Register</ListItem>
-          <ListItem>Terms</ListItem>
+          <Link to='/' style={{ textDecoration: 'none' }}>
+            <ListItem>Home</ListItem>
+          </Link>
+          <Link to='/cart' style={{ textDecoration: 'none' }}>
+            <ListItem>Cart</ListItem>
+          </Link>
+          <Link to='/shop' style={{ textDecoration: 'none' }}>
+            <ListItem>Pokemon</ListItem>
+          </Link>
+          <Link to='/shop' style={{ textDecoration: 'none' }}>
+            <ListItem>Item</ListItem>
+          </Link>
+          <Link to='/shop' style={{ textDecoration: 'none' }}>
+            <ListItem>TM/HM</ListItem>
+          </Link>
+          <Link to='/user/dashboard' style={{ textDecoration: 'none' }}>
+            <ListItem>My Account</ListItem>
+          </Link>
+          <Link to='/signin' style={{ textDecoration: 'none' }}>
+            <ListItem>Sign In</ListItem>
+          </Link>
+          <Link to='/register' style={{ textDecoration: 'none' }}>
+            <ListItem>Register</ListItem>
+          </Link>
         </List>
       </Center>
       <Right>

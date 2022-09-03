@@ -1,9 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(
-  'sk_test_51LGoMIGRovguwmZwI1E28hZ7M8NiO7UsAni6uJu86X0OceIc1Oh8tBZSb9Rq991DPohodT4YHR7QwHf3Hn4YzjTv00L83yRYM4'
-);
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
 router.post('/create-checkout-session', async (req, res) => {
   try {

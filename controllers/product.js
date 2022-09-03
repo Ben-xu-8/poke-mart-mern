@@ -104,7 +104,7 @@ exports.update = async (req, res) => {
 
   const prevProduct = await Product.findByIdAndUpdate(productId, req.body);
 
-  if (req.file !== undefined && req.file.filename !== oldProduct.fileName) {
+  if (req.file !== undefined && req.file.filename !== prevProduct.fileName) {
     fs.unlink(`uploads/${prevProduct.fileName}`, (err) => {
       if (err) throw err;
       console.log('Image Successfully Deleted');

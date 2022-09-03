@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
 import NavBar from '../components/NavBar';
-// import NewsLetter from '../components/NewsLetter';
 import { mobile } from '../responsive';
-import { loadStripe } from '@stripe/stripe-js';
-import { useNavigate } from 'react-router-dom';
 import { getProducts } from '../redux/actions/productActions';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,8 +9,6 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ADD_CART } from '../redux/constants/cartConstant';
 import { deleteCartItem } from '../redux/actions/cartActions';
-import getStripe from '../helpers/stripe';
-// const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div``;
 const Title = styled.div`
