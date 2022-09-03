@@ -22,6 +22,10 @@ app.use('/api/category', categoryRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/filter', filterRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use(express.static('client/build'));
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(_dirname, '../client', 'build', 'index.html'));
+});
 app.post('/create-checkout-session', stripeRoutes);
 
 connectDB();
