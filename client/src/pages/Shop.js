@@ -32,21 +32,24 @@ const Group = styled.div`
   ${mobile({
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    margin: 'auto',
   })}
 `;
+
+const SideTop = styled.div``;
+
 const SideBar = styled.div`
   padding: 10px;
   background-color: white;
   border: 1px lightgrey solid;
   float: left;
   width: 60%;
-  height: 40%;
+  height: 20%;
+  margin-bottom: 20px;
   ${mobile({
-    width: '80%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '0px',
   })}
 `;
 const Product = styled.div`
@@ -58,6 +61,7 @@ const Product = styled.div`
   ${mobile({
     alignItems: 'center',
     justifyContent: 'center',
+    width: '50%',
   })}
 `;
 const Title = styled.h4`
@@ -125,47 +129,49 @@ const Shop = () => {
       <Banner />
       <ShopBanner />
       <Group>
-        <SideBar>
-          <Top>
-            <Title>Filter</Title>
-            <Icon>
-              <FontAwesomeIcon icon={faSliders} />
-            </Icon>
-          </Top>
-          <Filter>
-            <Form className='d-flex'>
-              <Form.Control
-                type='search'
-                placeholder='Search'
-                className='me-2'
-                aria-label='Search'
-                name='search'
-                value={text}
-                onChange={handleSearch}
-              />
-              <Button variant='outline-success' disabled={true}>
-                Search
-              </Button>
-            </Form>
-          </Filter>
-          <Categories>
-            {categories &&
-              categories.map((category) => (
-                <Form.Check
-                  type='checkbox'
-                  name='category'
-                  id='flexCheckChecked'
-                  value={category._id}
-                  label={category.category}
-                  checked={categoryId.includes(category._id)}
-                  onChange={handleCategory}
+        <SideTop>
+          <SideBar>
+            <Top>
+              <Title>Filter</Title>
+              <Icon>
+                <FontAwesomeIcon icon={faSliders} />
+              </Icon>
+            </Top>
+            <Filter>
+              <Form className='d-flex'>
+                <Form.Control
+                  type='search'
+                  placeholder='Search'
+                  className='me-2'
+                  aria-label='Search'
+                  name='search'
+                  value={text}
+                  onChange={handleSearch}
                 />
-              ))}
-          </Categories>
-          <Button variant='outline-success' onClick={reset}>
-            Clear
-          </Button>
-        </SideBar>
+                <Button variant='outline-success' disabled={true}>
+                  Search
+                </Button>
+              </Form>
+            </Filter>
+            <Categories>
+              {categories &&
+                categories.map((category) => (
+                  <Form.Check
+                    type='checkbox'
+                    name='category'
+                    id='flexCheckChecked'
+                    value={category._id}
+                    label={category.category}
+                    checked={categoryId.includes(category._id)}
+                    onChange={handleCategory}
+                  />
+                ))}
+            </Categories>
+            <Button variant='outline-success' onClick={reset}>
+              Clear
+            </Button>
+          </SideBar>
+        </SideTop>
         <Product>
           {products &&
             products.map((product) => (

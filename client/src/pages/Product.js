@@ -24,7 +24,7 @@ const Image = styled.img`
   object-fit: cover;
   height: 60vh;
   width: 100%;
-  ${mobile({ height: '60vh' })}
+  ${mobile({ maxHeight: '200px', maxWidth: '200px' })}
 `;
 const InfoContainer = styled.div`
   flex: 1;
@@ -77,6 +77,12 @@ const Button = styled.button`
 
 const ProductContainer = styled.div`
   display: flex;
+  ${mobile({
+    flexDirection: 'column',
+    padding: '10px',
+    alignItems: 'center',
+    justifyContent: 'center',
+  })}
 `;
 
 const ButtonContainer = styled.div`
