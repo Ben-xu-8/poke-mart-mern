@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
+import { mobile } from '../responsive';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../redux/actions/productActions';
@@ -24,20 +25,40 @@ const Icon = styled.div`
 `;
 
 const Group = styled.div`
+  display: flex;
   margin-left: 20px;
   margin-top: 0px;
   padding-top: 0px;
+  ${mobile({
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  })}
 `;
 const SideBar = styled.div`
   padding: 10px;
-  width: 21%;
   background-color: white;
   border: 1px lightgrey solid;
   float: left;
+  width: 60%;
+  height: 40%;
+  ${mobile({
+    width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: '0px',
+  })}
 `;
 const Product = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-wrap: wrap;
+  ${mobile({
+    alignItems: 'center',
+    justifyContent: 'center',
+  })}
 `;
 const Title = styled.h4`
   padding-right: 20px;

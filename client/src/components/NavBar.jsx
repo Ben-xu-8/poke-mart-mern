@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { Badge } from '@mui/material';
 import { ShoppingCartOutlined } from '@mui/icons-material';
+import { mobile } from '../responsive';
 
 import {
   faHouseChimney,
@@ -18,37 +19,52 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
+  background-color: white;
   width: 100%;
+`;
+const Top = styled.div`
+  height: 100%;
+  justify-content: space-between;
+`;
+
+const Toggler = styled.div`
+  float: right;
+  margin-top: 20px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  background-color: white;
+  ${mobile({ textAlign: 'center', flexDirection: 'column' })}
 `;
 
 const Icon = styled.div`
   display: flex;
+  text-align: center;
   align-items: center;
   justify-content: center;
   padding-right: 5px;
 `;
 
-const Form = styled.div`
-  padding-left: 15px;
-`;
-
-const Search = styled.div`
-  margin-right: 20px;
+const Header = styled.div`
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 const Cart = styled.div`
+  background-color: white;
   margin-left: 38px;
   margin-right: 20px;
+  ${mobile({ marginLeft: '0px', marginRight: '0px' })}
 `;
-// const Button = styled.button`
-//   border: none;
-//   background-color: white;
-//   text-decoration: none;
-// `;
 
-// const Left = styled.div``;
-// const Center = styled.div``;
-// const Right = styled.div``;
+const SignOut = styled.div`
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -76,30 +92,39 @@ const NavBar = () => {
     <Wrapper>
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <div className='container-fluid'>
-          <Link to='/' className='navbar-brand' href='#'>
-            <img width='30%' height='15%' src={'/images/logo.png'} alt='logo' />
-          </Link>
-          <button
-            className='navbar-toggler'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#navbarSupportedContent'
-            aria-controls='navbarSupportedContent'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
-          >
-            <span className='navbar-toggler-icon'></span>
-          </button>
+          <Top>
+            <Link to='/' className='navbar-brand' href='#'>
+              <img
+                width='30%'
+                height='15%'
+                src={'/images/logo.png'}
+                alt='logo'
+              />
+            </Link>
+            <Toggler>
+              <button
+                className='navbar-toggler'
+                type='button'
+                data-bs-toggle='collapse'
+                data-bs-target='#navbarSupportedContent'
+                aria-controls='navbarSupportedContent'
+                aria-expanded='false'
+                aria-label='Toggle navigation'
+              >
+                <span className='navbar-toggler-icon'></span>
+              </button>
+            </Toggler>
+          </Top>
           <div className='collapse navbar-collapse' id='navbarSupportedContent'>
             <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
               {!isAuth() && (
-                <Fragment>
+                <Container>
                   <li className='nav-item'>
                     <Link to='/' className='nav-link' href='#'>
                       <Icon>
                         <FontAwesomeIcon icon={faHouseChimney} />
                       </Icon>
-                      Home
+                      <Header>Home</Header>
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -112,7 +137,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                       </Icon>
-                      Sign In
+                      <Header>Sign In</Header>
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -120,7 +145,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faUserPen} />
                       </Icon>
-                      Register
+                      <Header>Register</Header>
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -128,7 +153,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faBagShopping} />
                       </Icon>
-                      Products
+                      <Header>Products</Header>
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -145,7 +170,7 @@ const NavBar = () => {
                       </Cart>
                     </Link>
                   </li>
-                </Fragment>
+                </Container>
               )}
 
               {isAuth() && isAuth().role === 0 && <Fragment></Fragment>}
@@ -157,7 +182,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faGripHorizontal} />
                       </Icon>
-                      Dashboard
+                      <Header>Dashboard</Header>
                     </Link>
                   </li>
                 </Fragment>
@@ -170,7 +195,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faHouseChimney} />
                       </Icon>
-                      Home
+                      <Header>Home</Header>
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -178,16 +203,16 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faBagShopping} />
                       </Icon>
-                      Products
+                      <Header>Products</Header>
                     </Link>
                   </li>
                   <li className='nav-item ' onClick={handleLogout}>
-                    <button className='btn btn-link text-secondary text-decoration-none pl-0'>
+                    <SignOut>
                       <Icon>
                         <FontAwesomeIcon icon={faDoorOpen} />
                       </Icon>
-                      Logout
-                    </button>
+                      <Header>Home</Header>
+                    </SignOut>
                   </li>
                   <li className='nav-item'>
                     <Link to='/cart' className='nav-link' href='#'>

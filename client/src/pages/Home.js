@@ -53,6 +53,7 @@ const Home = () => {
       <NavBar />
       <Banner />
       <Slide />
+      <Categories />
       <hr />
       {loading ? (
         <LoadingProduct>{showLoading()}</LoadingProduct>
