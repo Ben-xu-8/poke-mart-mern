@@ -69,8 +69,8 @@ router.post('/create-checkout-session', async (req, res) => {
           quantity: item.count,
         };
       }),
-      success_url: `${process.env.SERVER_URL}/success`,
-      cancel_url: `${process.env.SERVER_URL}/cancel`,
+      success_url: `https://poke-mart-center.herokuapp.com/success`,
+      cancel_url: `https://poke-mart-center.herokuapp.com/cancel`,
     });
     res.json({ url: session.url });
   } catch (err) {
