@@ -58,18 +58,10 @@ const AmountContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-const Amount = styled.div`
-  height: 25px;
-  width: 25px;
-  border: 1px solid #d61c4e;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0px 5px;
-`;
+
 const Button = styled.button`
   background-color: white;
+  color: black;
   cursor: pointer;
   border: 3px solid #d61c4e;
   padding: 12px;

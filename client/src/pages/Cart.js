@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ADD_CART } from '../redux/constants/cartConstant';
 import { deleteCartItem } from '../redux/actions/cartActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div``;
 const Title = styled.div`
@@ -42,6 +44,8 @@ const TopText = styled.span`
 
 const TopButton = styled.button`
   padding: 10px;
+  color: black;
+  background-color: #0000;
   cursor: pointer;
 `;
 
@@ -87,7 +91,6 @@ const PriceDetail = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  ${mobile({ flexDirection: 'column' })}
 `;
 
 const ProductAmountContainer = styled.div`
@@ -238,9 +241,14 @@ const Cart = () => {
                         />
                       </Amount>
                     </ProductAmountContainer>
-                    <DeleteIcon
+                    {/* <DeleteIcon
                       type='button'
                       onClick={() => dispatch(deleteCartItem(cart))}
+                    /> */}
+
+                    <FontAwesomeIcon
+                      onClick={() => dispatch(deleteCartItem(cart))}
+                      icon={faTrash}
                     />
                   </PriceDetail>
                 </Product>

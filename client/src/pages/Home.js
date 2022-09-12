@@ -15,13 +15,7 @@ import NewsLetter from '../components/NewsLetter';
 import Footer from '../components/Footer';
 
 const LoadingProduct = styled.div``;
-const NewProductContainer = styled.div`
-  margin-right: 50px;
-`;
-
-const ProductContainer = styled.div`
-  margin-right: 50px;
-`;
+const NewProductContainer = styled.div``;
 
 const Products = styled.div`
   display: flex;

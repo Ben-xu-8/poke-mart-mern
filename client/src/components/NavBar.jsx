@@ -126,7 +126,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                       </Icon>
-                      Sign In
+                      Login
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -150,7 +150,6 @@ const NavBar = () => {
                       <Cart>
                         <Icon>
                           <Badge
-                            variant='dot'
                             badgeContent={cart.cart.length}
                             color='primary'
                           >
