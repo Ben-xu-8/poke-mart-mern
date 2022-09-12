@@ -15,7 +15,6 @@ import {
   faGripHorizontal,
   faDoorOpen,
   faBagShopping,
-  faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
@@ -54,16 +53,6 @@ const TopContainer = styled.div`
   justify-content: space-between;
 `;
 
-// const Button = styled.button`
-//   border: none;
-//   background-color: white;
-//   text-decoration: none;
-// `;
-
-// const Left = styled.div``;
-// const Center = styled.div``;
-// const Right = styled.div``;
-
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     let location = useLocation();
@@ -79,7 +68,6 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
-  console.log(cart.cart.length);
 
   const handleLogout = (evt) => {
     logout(() => {

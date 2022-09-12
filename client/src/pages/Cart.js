@@ -3,7 +3,7 @@ import Announcement from '../components/Announcement';
 import NavBar from '../components/NavBar';
 import { mobile } from '../responsive';
 import { getProducts } from '../redux/actions/productActions';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Top = styled.div`
   margin: 0 10%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 18px;
 `;
 
@@ -43,11 +43,8 @@ const TopText = styled.span`
 const TopButton = styled.button`
   padding: 10px;
   cursor: pointer;
-  border: ${(props) => props.type === 'filled' && 'none'};
-  background-color: ${(props) =>
-    props.type === 'filled' ? 'black' : 'transparent'};
-  color: ${(props) => props.type === 'filled' && 'white'};
 `;
+
 const Bottom = styled.div`
   width: 100%;
   display: flex;
@@ -90,6 +87,7 @@ const PriceDetail = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  ${mobile({ flexDirection: 'column' })}
 `;
 
 const ProductAmountContainer = styled.div`
@@ -195,7 +193,6 @@ const Cart = () => {
             <TopText>Shopping Bag</TopText>
             <TopText>Your Wishlist</TopText>
           </TopTexts>
-          <TopButton type='filled'>Checkout Now</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -270,11 +267,7 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice> $5</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Promo Code</SummaryItemText>
-              <SummaryItemPrice> $-5</SummaryItemPrice>
+              <SummaryItemPrice> TBD </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type='total'>
               <SummaryItemText>Total</SummaryItemText>
