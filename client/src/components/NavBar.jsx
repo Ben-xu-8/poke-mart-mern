@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { mobile } from '../responsive';
 import styled from 'styled-components';
 import { isAuth, logout } from '../helpers/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { Badge } from '@mui/material';
 import { ShoppingCartOutlined } from '@mui/icons-material';
-import { mobile } from '../responsive';
 
 import {
   faHouseChimney,
@@ -19,52 +19,50 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
-  background-color: white;
   width: 100%;
-`;
-const Top = styled.div`
-  height: 100%;
-  justify-content: space-between;
-`;
-
-const Toggler = styled.div`
-  float: right;
-  margin-top: 20px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  background-color: white;
-  ${mobile({ textAlign: 'center', flexDirection: 'column' })}
 `;
 
 const Icon = styled.div`
   display: flex;
-  text-align: center;
   align-items: center;
   justify-content: center;
   padding-right: 5px;
 `;
 
-const Header = styled.div`
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
-
 const Cart = styled.div`
-  background-color: white;
   margin-left: 38px;
   margin-right: 20px;
-  ${mobile({ marginLeft: '0px', marginRight: '0px' })}
 `;
 
-const SignOut = styled.div`
+const Container = styled.div`
+  display: flex;
   text-align: center;
   justify-content: center;
-  align-items: center;
+  ${mobile({ flexDirection: 'column' })}
 `;
+
+const NavButton = styled.div`
+  display: flex;
+`;
+
+const ImgContainer = styled.div``;
+const TopContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+// const Button = styled.button`
+//   border: none;
+//   background-color: white;
+//   text-decoration: none;
+// `;
+
+// const Left = styled.div``;
+// const Center = styled.div``;
+// const Right = styled.div``;
 
 function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -81,6 +79,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const cart = useSelector((state) => state.cart);
+  console.log(cart.cart.length);
 
   const handleLogout = (evt) => {
     logout(() => {
@@ -92,16 +91,18 @@ const NavBar = () => {
     <Wrapper>
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <div className='container-fluid'>
-          <Top>
-            <Link to='/' className='navbar-brand' href='#'>
-              <img
-                width='30%'
-                height='15%'
-                src={'/images/logo.png'}
-                alt='logo'
-              />
-            </Link>
-            <Toggler>
+          <TopContainer>
+            <ImgContainer>
+              <Link to='/' className='navbar-brand' href='#'>
+                <img
+                  width='35%'
+                  height='100%'
+                  src={'/images/logo.png'}
+                  alt='logo'
+                />
+              </Link>
+            </ImgContainer>
+            <NavButton>
               <button
                 className='navbar-toggler'
                 type='button'
@@ -113,8 +114,8 @@ const NavBar = () => {
               >
                 <span className='navbar-toggler-icon'></span>
               </button>
-            </Toggler>
-          </Top>
+            </NavButton>
+          </TopContainer>
           <div className='collapse navbar-collapse' id='navbarSupportedContent'>
             <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
               {!isAuth() && (
@@ -124,7 +125,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faHouseChimney} />
                       </Icon>
-                      <Header>Home</Header>
+                      Home
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -137,7 +138,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faRightFromBracket} />
                       </Icon>
-                      <Header>Sign In</Header>
+                      Sign In
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -145,7 +146,7 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faUserPen} />
                       </Icon>
-                      <Header>Register</Header>
+                      Register
                     </Link>
                   </li>
                   <li className='nav-item'>
@@ -153,8 +154,78 @@ const NavBar = () => {
                       <Icon>
                         <FontAwesomeIcon icon={faBagShopping} />
                       </Icon>
-                      <Header>Products</Header>
+                      Products
                     </Link>
+                  </li>
+                  <li className='nav-item'>
+                    <Link to='/cart' className='nav-link' href='#'>
+                      <Cart>
+                        <Icon>
+                          <Badge
+                            variant='dot'
+                            badgeContent={cart.cart.length}
+                            color='primary'
+                          >
+                            <ShoppingCartOutlined />
+                          </Badge>
+                        </Icon>
+                      </Cart>
+                    </Link>
+                  </li>
+                </Container>
+              )}
+
+              {isAuth() && isAuth().role === 0 && (
+                <Container>
+                  <li className='nav-item'>
+                    <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faGripHorizontal} />
+                      </Icon>
+                      Dashboard
+                    </Link>
+                  </li>
+                </Container>
+              )}
+
+              {isAuth() && isAuth().role === 1 && (
+                <Container>
+                  <li className='nav-item'>
+                    <Link to='/admin/dashboard' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faGripHorizontal} />
+                      </Icon>
+                      Dashboard
+                    </Link>
+                  </li>
+                </Container>
+              )}
+
+              {isAuth() && (
+                <Container>
+                  <li className='nav-item'>
+                    <Link to='/' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faHouseChimney} />
+                      </Icon>
+                      Home
+                    </Link>
+                  </li>
+                  <li className='nav-item'>
+                    <Link to='/shop' className='nav-link' href='#'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faBagShopping} />
+                      </Icon>
+                      Products
+                    </Link>
+                  </li>
+                  <li className='nav-item ' onClick={handleLogout}>
+                    <button className='btn btn-link text-secondary text-decoration-none pl-0'>
+                      <Icon>
+                        <FontAwesomeIcon icon={faDoorOpen} />
+                      </Icon>
+                      Logout
+                    </button>
                   </li>
                   <li className='nav-item'>
                     <Link to='/cart' className='nav-link' href='#'>
@@ -171,59 +242,6 @@ const NavBar = () => {
                     </Link>
                   </li>
                 </Container>
-              )}
-
-              {isAuth() && isAuth().role === 0 && <Fragment></Fragment>}
-
-              {isAuth() && isAuth().role === 1 && (
-                <Fragment>
-                  <li className='nav-item'>
-                    <Link to='/admin/dashboard' className='nav-link' href='#'>
-                      <Icon>
-                        <FontAwesomeIcon icon={faGripHorizontal} />
-                      </Icon>
-                      <Header>Dashboard</Header>
-                    </Link>
-                  </li>
-                </Fragment>
-              )}
-
-              {isAuth() && (
-                <Fragment>
-                  <li className='nav-item'>
-                    <Link to='/' className='nav-link' href='#'>
-                      <Icon>
-                        <FontAwesomeIcon icon={faHouseChimney} />
-                      </Icon>
-                      <Header>Home</Header>
-                    </Link>
-                  </li>
-                  <li className='nav-item'>
-                    <Link to='/shop' className='nav-link' href='#'>
-                      <Icon>
-                        <FontAwesomeIcon icon={faBagShopping} />
-                      </Icon>
-                      <Header>Products</Header>
-                    </Link>
-                  </li>
-                  <li className='nav-item ' onClick={handleLogout}>
-                    <SignOut>
-                      <Icon>
-                        <FontAwesomeIcon icon={faDoorOpen} />
-                      </Icon>
-                      <Header>Home</Header>
-                    </SignOut>
-                  </li>
-                  <li className='nav-item'>
-                    <Link to='/cart' className='nav-link' href='#'>
-                      <Cart>
-                        <Icon>
-                          <FontAwesomeIcon icon={faShoppingCart} />
-                        </Icon>
-                      </Cart>
-                    </Link>
-                  </li>
-                </Fragment>
               )}
             </ul>
           </div>

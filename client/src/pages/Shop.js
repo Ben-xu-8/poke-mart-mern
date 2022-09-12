@@ -38,13 +38,17 @@ const Group = styled.div`
 
 const SideTop = styled.div``;
 
+const ButtonContainer = styled.div`
+  float: right;
+`;
+
 const SideBar = styled.div`
   padding: 10px;
   background-color: white;
   border: 1px lightgrey solid;
   float: left;
-  width: 60%;
-  height: 20%;
+  width: 20vw;
+  height: 22%;
   margin-bottom: 20px;
   ${mobile({
     width: '100%',
@@ -167,9 +171,11 @@ const Shop = () => {
                   />
                 ))}
             </Categories>
-            <Button variant='outline-success' onClick={reset}>
-              Clear
-            </Button>
+            <ButtonContainer>
+              <Button variant='outline-success' onClick={reset}>
+                Clear
+              </Button>
+            </ButtonContainer>
           </SideBar>
         </SideTop>
         <Product>

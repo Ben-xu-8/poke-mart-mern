@@ -72,7 +72,7 @@ const Icon = styled.div`
 `;
 
 const Container = styled.div`
-  width: 30%;
+  width: 50%;
   height: 200vh;
   background-color: #14274e;
   border-right: 2px black solid;
