@@ -45,8 +45,10 @@ const TopText = styled.span`
 const TopButton = styled.button`
   padding: 10px;
   color: black;
-  background-color: #0000;
+  border: 2px red solid;
+  background-color: #ffffff;
   cursor: pointer;
+  float: left;
 `;
 
 const Bottom = styled.div`
