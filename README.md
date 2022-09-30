@@ -1,5 +1,6 @@
 # Poke Mart E-Commerce
 Poke Mart is an E-commerce website that allow users to purchase Pokemon, TMs, and items. Users can create an account, add items to their cart, and process the payment through Stripe 
+
 **Link to project:** https://poke-mart-center.herokuapp.com/
 
 ![image](https://user-images.githubusercontent.com/99767112/193191556-68dedde5-8af9-4baf-b64c-0eee7b7bb708.png)
